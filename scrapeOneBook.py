@@ -21,20 +21,16 @@ if response.ok:
     number_available = str(re.findall('[0-9]+', number_available_string))[2:4]
     product_description = soup.findAll('p')[3].text
     category = soup.findAll('a')[3].text
-    review_ratings = soup.findAll('p')
-    searchingfor = 'rating'
-    for i in review_ratings:
-        if(re.search(searchingfor, str(i))): 
-            if ("star-rating One" in str(i)):
-                review_rating = 1
-            elif ("star-rating Two" in str(i)):
-                review_rating = 2
-            elif ("star-rating Three" in str(i)):
-                review_rating = 3
-            elif ("star-rating Four" in str(i)):
-                review_rating = 4
-            else:
-                review_rating = 5
+
+    rating_to_find = str(soup.find("p", {"class": "star-rating"}))
+
+    raitings = {'One': 1, 'Two': 2, 'Three': 3, "Four": 4, "Five": 5}
+
+    review_rating = None
+    for rating in ['One', 'Two', 'Three', 'Four', 'Five']:
+        if rating_to_find.find(rating) != -1:
+            review_rating = rating
+
     image = soup.find("img")
     source = image['src']
     image_url = (urlbase + source[5:])
