@@ -31,6 +31,10 @@ import re # for regex operations
 # declaration of variables: url is the url that will be parsed
 url = 'https://books.toscrape.com/catalogue/a-light-in-the-attic_1000/index.html'
 urlbase = 'https://books.toscrape.com/'
+# creating the csv file with the name of the columns
+with open("dataOneBook.csv", 'a', newline='') as a_csv_csv:
+            csv_writer = csv.writer(a_csv_csv)
+            csv_writer.writerow(['product_page_url', 'universal_product_code(upc)', 'title', 'price_including_tax', 'price_excluding_tax', 'number_available', 'product_description', 'category', 'review_rating', 'image_url'])
 
 # function to find the review_rating
 def find_rating(string_to_parse):
@@ -41,37 +45,26 @@ def find_rating(string_to_parse):
             review_rating = raitings[rating]
             return review_rating
 
-# requesting
-response = requests.get(url)
-print(response)
+# defining the function to find all the datas listed in the intro-description
+# using a function, because it will be reused in another module
+def find_datas(url_to_parse, a_csv):
+    response = requests.get(url_to_parse) # requesting
+    if response.ok:
+        soup = BeautifulSoup(response.text, 'lxml') # to parse the html
+        upc = soup.find('td').text # find universal_ product_code
+        title = soup.find('h1').text # find title
+        price_including_tax = soup.findAll('td')[3].text[1:] # find price incl tax, with the £ sign
+        price_excluding_tax = soup.findAll('td')[2].text[1:] # find price excl tax, with the £ sign
+        number_available = str(re.findall('[0-9]+', soup.findAll('td')[5].text))[2:4] # find the number_available
+        product_description = soup.findAll('p')[3].text # find the description
+        category = soup.findAll('a')[3].text  # find the category
+        review_rating = find_rating(str(soup.find("p", {"class": "star-rating"})))  # find the review_rating using the function defined above 
+        image_url = urlbase + soup.find("img")['src'][5:] # find the image_url
+        with open(a_csv, 'a', newline='') as a_csv_csv:
+            csv_writer = csv.writer(a_csv_csv)
+            csv_writer.writerow([url, upc, title, price_including_tax, price_excluding_tax, number_available, product_description, category, review_rating, image_url ])
+    else:
+        print('not able to get this url')
 
-if response.ok:
-    # to parse the html
-    soup = BeautifulSoup(response.text, 'lxml')
-    # find universal_ product_code
-    upc = soup.find('td').text
-    # find title
-    title = soup.find('h1').text
-    # find price incl tax, with the £ sign
-    price_including_tax = soup.findAll('td')[3].text[1:]
-    # find price excl tax, with the £ sign
-    price_excluding_tax = soup.findAll('td')[2].text[1:]
-    # find the number_available
-    number_available = str(re.findall('[0-9]+', soup.findAll('td')[5].text))[2:4]
-    # find the description
-    product_description = soup.findAll('p')[3].text
-    # find the category
-    category = soup.findAll('a')[3].text  
-    # find the review_rating using the function defined above 
-    review_rating = find_rating(str(soup.find("p", {"class": "star-rating"})))
-    # find the image_url
-    image_url = urlbase + soup.find("img")['src'][5:]
-   
-   # write the csv file dataOneBook.csv
-    with open('dataOneBook.csv', 'w', newline='') as dataOneBook_csv:
-        csv_writer = csv.writer(dataOneBook_csv)
-        csv_writer.writerow(['product_page_url', 'universal_product_code(upc)', 'title', 'price_including_tax', 'price_excluding_tax', 'number_available', 'product_description', 'category', 'review_rating', 'image_url'])
-        csv_writer.writerow([url, upc, title, price_including_tax, price_excluding_tax, number_available, product_description, category, review_rating, image_url ])
-
-else:
-    print('not able to get this url')
+# calling the function
+find_datas(url, "dataOneBook.csv")
