@@ -23,15 +23,14 @@
 # the script will write a csv file (dataOneBook.csv) with all these datas above.
 # dataOneBook.csv will appear in th same folder as scrapeOneBook.py is.
 
-
 import requests # to make the get request to the url
 from bs4 import BeautifulSoup # to parse the html
 import csv # to write the csv file
 import re # for regex operations
 
 # declaration of variables: url is the url that will be parsed
-url         = 'https://books.toscrape.com/catalogue/a-light-in-the-attic_1000/index.html'
-urlbase     = 'https://books.toscrape.com/'
+url = 'https://books.toscrape.com/catalogue/a-light-in-the-attic_1000/index.html'
+urlbase = 'https://books.toscrape.com/'
 
 # function to find the review_rating
 def find_rating(string_to_parse):
@@ -39,7 +38,7 @@ def find_rating(string_to_parse):
     review_rating = None
     for rating in ['One', 'Two', 'Three', 'Four', 'Five']:
         if string_to_parse.find(rating) != -1:
-            review_rating = rating
+            review_rating = raitings[rating]
             return review_rating
 
 # requesting
@@ -48,29 +47,25 @@ print(response)
 
 if response.ok:
     # to parse the html
-    soup    = BeautifulSoup(response.text, 'lxml')
+    soup = BeautifulSoup(response.text, 'lxml')
     # find universal_ product_code
-    upc     = soup.find('td').text
+    upc = soup.find('td').text
     # find title
-    title   = soup.find('h1').text
+    title = soup.find('h1').text
     # find price incl tax, with the £ sign
     price_including_tax = soup.findAll('td')[3].text[1:]
     # find price excl tax, with the £ sign
     price_excluding_tax = soup.findAll('td')[2].text[1:]
     # find the number_available
-    number_available_string = soup.findAll('td')[5].text
-    number_available = str(re.findall('[0-9]+', number_available_string))[2:4]
+    number_available = str(re.findall('[0-9]+', soup.findAll('td')[5].text))[2:4]
     # find the description
     product_description = soup.findAll('p')[3].text
     # find the category
     category = soup.findAll('a')[3].text  
     # find the review_rating using the function defined above 
-    rating_to_find = str(soup.find("p", {"class": "star-rating"}))
-    review_rating = find_rating(rating_to_find)
+    review_rating = find_rating(str(soup.find("p", {"class": "star-rating"})))
     # find the image_url
-    image = soup.find("img")
-    source = image['src']
-    image_url = (urlbase + source[5:])
+    image_url = urlbase + soup.find("img")['src'][5:]
    
    # write the csv file dataOneBook.csv
     with open('dataOneBook.csv', 'w', newline='') as dataOneBook_csv:
