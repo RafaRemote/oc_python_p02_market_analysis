@@ -2,6 +2,7 @@ import requests # to make the get request to the url
 from bs4 import BeautifulSoup # to parse the html
 import csv # to write the csv file
 import re # for regex operations
+import itertools # for the iteration to infinity
 
 urlbase = 'https://books.toscrape.com/'
 
@@ -38,7 +39,7 @@ def find_datas(url_to_parse, a_csv):
         print('not able to get this url')
 
 
-def find_all_books_per_category(a,b,c):
+def find_all_books_per_category(url):
 
     urlbase = 'https://books.toscrape.com/catalogue/'
 

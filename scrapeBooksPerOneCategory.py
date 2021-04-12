@@ -19,16 +19,10 @@
 #
 # dataBooksPerCategory.csv will appear in the folder 'scraped_datas'.
 
-import requests # to make the get request to the url
-from bs4 import BeautifulSoup # to parse the html
-import csv # to write the csv file
-import re # for regex operations
-import itertools # for the iteration to infinity
-from scrapeFunctions import find_datas # the main function of this script is located in scrapeFunctions.py
+import scrapeFunctions # the main function of this script is located in scrapeFunctions.py
 
-# declaring all the variables needed
+# declaring the variable that will be the url to parse
 url = 'https://books.toscrape.com/catalogue/category/books/sequential-art_5/index.html'
 
 # calling the main function
 scrapeFunctions.find_all_books_per_category(url)
-
