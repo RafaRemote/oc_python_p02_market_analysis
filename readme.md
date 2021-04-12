@@ -27,7 +27,7 @@ or
 
 or
 
-'python3 scrapeImagesOfEachProductseen.py'
+'python3 scrapeImageOfEachProductSeen.py'
 
 ## Descriptions of scripts
 
@@ -62,6 +62,6 @@ will extract all the informations for each book of each categories.
 
 will write one csv file for each category, using the same form defined above: dateBooksPerCategory_[category].csv
 
-### 4. scrapeImagesOfEachProductseen.py
+### 4. scrapeImageOfEachProductSeen.py
 
 will save the images of the products that you have visited in the folder *scraped_images*.

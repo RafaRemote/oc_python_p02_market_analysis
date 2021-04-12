@@ -1,5 +1,6 @@
 /scraped_datas
 /scraped_images
+__pycache__
 
 # python boilerplate gitignore
 # https://github.com/github/gitignore/blob/master/Python.gitignore

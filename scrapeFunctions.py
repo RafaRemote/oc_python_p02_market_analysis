@@ -29,7 +29,7 @@ def find_datas(url_to_parse, a_csv):
         title = soup.find('h1').text # find title
         price_including_tax = soup.findAll('td')[3].text[1:] # find price incl tax, with the £ sign
         price_excluding_tax = soup.findAll('td')[2].text[1:] # find price excl tax, with the £ sign
-        number_available = str(re.findall('[0-9]+', soup.findAll('td')[5].text))[2:4] # find the number_available
+        number_available = str(re.findall('[0-9]+', soup.findAll('td')[5].text))[2:-2] # find the number_available
         product_description = soup.findAll('p')[3].text # find the description
         category = soup.findAll('a')[3].text  # find the category
         review_rating = find_rating(str(soup.find("p", {"class": "star-rating"})))  # find the review_rating using the function defined above 

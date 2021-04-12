@@ -1,42 +1,45 @@
-# Purpose of this script:
-# 
-# - main project: Price Scraping
-# - target Website: books.toscrape.com
-#
-# this script will extract the following 10 informations for a chosen product on the target website:
-#
-# product_page_url
-# universal_ product_code (upc)
-# title
-# price_including_tax
-# price_excluding_tax
-# number_available
-# product_description
-# category
-# review_rating
-# image_url
-# 
-# the script will write a csv file (dataOneBook.csv) with all these datas above.
-#
-# Instructions for this script
-#
-# choose a product page on books.toscrape.com, then:
-# replace the url variable defined below by the one of the product page you have chosen
-# open a terminal
-# check that you are in the folder 'python-web-scraping'
-# type: 'python3 scrapeOneBook.py'
-#
-# dataOneBook_[name of the book].csv will appear in the folder 'scraped_datas'.
+""" Purpose of this script:
+---------------------------
 
+- main project: Price Scraping
+- target Website: books.toscrape.com
 
-# main idea of this script
-#
-# the main function is find_datas() located in scrapeFunctions.py,
-# it takes two arguments: 
-# first: the url to parse (url_to_parse) 
-# second: the output csv we want (a_csv)
-# 
-# therefore the purpose of these next lines is to define these two arguments that will be used by the function, when we will call it.
+this script will extract the following 10 informations for a chosen product on the target website:
+
+product_page_url
+universal_ product_code (upc)
+title
+price_including_tax
+price_excluding_tax
+number_available
+product_description
+category
+review_rating
+image_url
+
+the script will write a csv file (dataOneBook.csv) with all these datas above.
+
+Instructions for this script:
+----------------------------
+
+choose a product page on books.toscrape.com, then:
+replace the url variable defined below by the one of the product page you have chosen
+open a terminal
+check that you are in the folder 'python-web-scraping'
+type: 'python3 scrapeOneBook.py'
+
+dataOneBook_[name of the book].csv will appear in the folder 'scraped_datas'.
+
+Main idea of this script:
+-------------------------
+
+the main function is find_datas() located in scrapeFunctions.py,
+it takes two arguments: 
+first: the url to parse (url_to_parse) 
+second: the output csv we want (a_csv)
+
+therefore the purpose of these next lines is to define these two arguments that will be used by the function, when we will call it.
+"""
 
 import csv # to write the csv file
 import re # for regex operations

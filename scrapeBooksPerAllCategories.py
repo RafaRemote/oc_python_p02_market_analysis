@@ -1,18 +1,21 @@
-# Purpose of this script:
-# 
-# - main project: Price Scraping
-# - target Website: books.toscrape.com
-# 
-# this script will extract all the informations for all the books of the target website.
-# it will write one csv file per category, format: 'dataBooksPerCategory_[Category].csv'.
-# 
-# Instructions
-#
-# open a terminal
-# check that you are in the folder 'python-web-scraping'
-# type:  'python3 scrapeBooksPerAllCategories.py'.
-#
-# all 'dataBooksPerCategory_[Category].csv' files will appear in the folder 'scraped_datas'.
+""" Purpose of this script:
+---------------------------
+
+- main project: Price Scraping
+- target Website: books.toscrape.com
+
+this script will extract all the informations for all the books of the target website.
+it will write one csv file per category, format: 'dataBooksPerCategory_[Category].csv'.
+
+Instructions:
+-------------
+
+open a terminal
+check that you are in the folder 'python-web-scraping'
+type:  'python3 scrapeBooksPerAllCategories.py'.
+
+all 'dataBooksPerCategory_[Category].csv' files will appear in the folder 'scraped_datas'.
+"""
 
 import requests # to make the get request to the url
 from bs4 import BeautifulSoup # to parse the html
