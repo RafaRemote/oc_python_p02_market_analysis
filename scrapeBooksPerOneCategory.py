@@ -24,6 +24,8 @@ dataBooksPerCategory_[Category].csv will appear in the folder 'scraped_datas'.
 
 import scrapeFunctions # the main function of this script is located in scrapeFunctions.py
 
+checkDir('scraped_datas')
+
 # declaring the variable that will be the url to parse
 url = 'https://books.toscrape.com/catalogue/category/books/sequential-art_5/index.html'
 

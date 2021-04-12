@@ -23,6 +23,8 @@ import re # for regex operations
 import csv # to create the csv files
 import scrapeFunctions
 
+checkDir('scraped_datas')
+
 # declaring all the variables needed
 url = 'https://books.toscrape.com/'
 

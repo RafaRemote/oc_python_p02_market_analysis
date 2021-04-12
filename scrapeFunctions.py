@@ -5,12 +5,23 @@ from bs4 import BeautifulSoup # to parse the html
 import csv # to write the csv file
 import re # for regex operations
 import itertools # for the iteration to infinity
+import os.path # to create a directory if no exsiting
+
+scraped_images_dir = '../scraped_images'
 
 urlbase = 'https://books.toscrape.com/'
+          
+# check if a directory exists or not, creating it when needed
 
-# defining the function to find all the datas listed in the intro-description
-# using a function, because it will be reused in another module
+def checkDir(dirname):
+    directory = dirname
+    parent_directory = "../"
+    path = os.path.join(parent_directory, directory)
 
+    if not os.path.isdir(dirname):
+        print('destination ' + dirname + ' directory is not existing -> Creating ' + dirname + ' directory.')
+        os.mkdir(dirname)
+ 
 # function to find the review_rating: will be used by find_datas()
 def find_rating(string_to_parse):
     raitings = {'One': 1, 'Two': 2, 'Three': 3, "Four": 4, "Five": 5}
@@ -98,3 +109,17 @@ def find_all_books_per_category(url):
     # informing the user in the console that the operation ended
     print("No more pages to scrape for this category!")
     print("The csv file with the books for ", category, " is available in the folder 'scraped_datas'")
+
+def saveImageUrl(url):
+    urlbase = 'https://books.toscrape.com'
+    response = requests.get(url)
+    image_url_list = list()
+    if response.ok:
+        soup = BeautifulSoup(response.text, 'lxml')
+        image_url = urlbase + soup.find('img')['src'][5:]
+        response = requests.get(image_url)
+        if(response.ok):      
+            with open('../scraped_images', 'w') as f:
+                f.write(image_url)
+
+

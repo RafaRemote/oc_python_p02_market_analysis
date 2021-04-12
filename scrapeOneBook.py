@@ -43,7 +43,9 @@ therefore the purpose of these next lines is to define these two arguments that 
 
 import csv # to write the csv file
 import re # for regex operations
-from scrapeFunctions import find_datas # the main function of this script is located in scrapeFunctions.py
+import scrapeFunctions 
+
+checkDir('scraped_datas')
 
 # the first paramater of the function find_datas()
 url = 'https://books.toscrape.com/catalogue/twenty-yawns_773/index.html'
