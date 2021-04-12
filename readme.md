@@ -1,18 +1,12 @@
 # Project: Price Scraping
 
 Here are the 4 scripts you asked for.
-
 Target Website use for these processes: _books.toscrape.com_
-
-
 ## Instructions
 
-Once you have cloned this repository, in the folder where you have cloned 'python-web-scraping', create the folders: *scraped_datas* and *scraped_images*.
-
+Clone the repository in the folder of your choice.
 Check the descriptions of the scripts you want to use before using them.
-
 Open a terminal and check that you are in the folder: 'python-web-scraping', then:
-
 you can use the scripts by typing:
 
 'python3 scrapeOneBook.py'
@@ -31,7 +25,7 @@ or
 
 ## Descriptions of scripts
 
-_Note that each scripts will extract informations and that these informations will be stored in the folder: *scraped_datas* for the csv files amd in the folder *scraped_images* for the image files._
+_Note that each scripts will extract informations and that these informations will be stored in the folder: *scraped_datas* for the csv files and in the folder *scraped_images* for the image files._
 
 ### 1. scrapeOneBook.py
 
