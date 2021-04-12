@@ -1,8 +1,18 @@
 # Purpose of this script:
 # 
-# Scrape all the categories on books.toscrape.com
-# write a csv file with the datas of each book of each category. One file per category.
-# datasAllCategory with all the csv files will appear in the folder 'scraped_datas'.
+# - main project: Price Scraping
+# - target Website: books.toscrape.com
+# 
+# this script will extract all the informations for all the books of the target website.
+# it will write one csv file per category, format: 'dataBooksPerCategory_[Category].csv'.
+# 
+# Instructions
+#
+# open a terminal
+# check that you are in the folder 'python-web-scraping'
+# type:  'python3 scrapeBooksPerAllCategories.py'.
+#
+# all 'dataBooksPerCategory_[Category].csv' files will appear in the folder 'scraped_datas'.
 
 import requests # to make the get request to the url
 from bs4 import BeautifulSoup # to parse the html
@@ -30,7 +40,7 @@ for i in a_tags:
 print("----------There is a total of: ", len(categories_list)-1, " categories to parse.----------")
 length_left = len(categories_list)-1
 for i in range(1, len(categories_list), 1):
-    scrapeFunctions.find_all_books_per_category(categories_list[i], len(categories_list)-1)
+    scrapeFunctions.find_all_books_per_category(categories_list[i])
     length_left -= 1
     print("----------there is: ", length_left, " categories left to parse.----------")
 

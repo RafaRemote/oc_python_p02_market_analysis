@@ -89,11 +89,10 @@ def find_all_books_per_category(url):
     
     # calling the function
     for i in url_list:
-        print("parsing page: ", i)
+        print("parsing page: ", i, "please wait...")
         extract_product_url(i, product_url_list)
-        print("looking for next page")
+        print("looking if there is a next page to parse")
         
-
     # informing the user in the console that the operation ended
-    print("No more pages to scrape !")
-    print("The csv file with the books for ", category, " is available in the folder 'scraped_datas")
+    print("No more pages to scrape for this category!")
+    print("The csv file with the books for ", category, " is available in the folder 'scraped_datas'")

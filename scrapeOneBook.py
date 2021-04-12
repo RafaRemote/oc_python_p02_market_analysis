@@ -22,7 +22,9 @@
 #
 # choose a product page on books.toscrape.com, then:
 # replace the url variable defined below by the one of the product page you have chosen
-# launch the script: 'python3 scrapeOneBook.py'
+# open a terminal
+# check that you are in the folder 'python-web-scraping'
+# type: 'python3 scrapeOneBook.py'
 #
 # dataOneBook_[name of the book].csv will appear in the folder 'scraped_datas'.
 

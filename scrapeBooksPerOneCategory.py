@@ -5,7 +5,7 @@
 #  
 # this script will extract the product_page_url of each book of a chosen category on the target website, then:
 # it will associate this data with the ones extracted by scrapeOneBook.py, then:
-# it will write all the datas in one csv file: 'dataBooksPerCategory.csv'.
+# it will write all the datas in one csv file: 'dataBooksPerCategory_[Category].csv'.
 #
 # Instructions for this script
 #
@@ -24,5 +24,5 @@ import scrapeFunctions # the main function of this script is located in scrapeFu
 # declaring the variable that will be the url to parse
 url = 'https://books.toscrape.com/catalogue/category/books/sequential-art_5/index.html'
 
-# calling the main function with the argument neeeded
-scrapeFunctions.find_all_books_per_category(url)
+# calling the main function with the arguments needed. Second argument = amount of url to parse.
+scrapeFunctions.find_all_books_per_category(url, 1)
