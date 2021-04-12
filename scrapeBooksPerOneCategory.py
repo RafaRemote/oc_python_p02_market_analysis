@@ -17,12 +17,12 @@
 # check that you are in the folder 'python-web-scraping'
 # type: 'python3 scrapeBooksPerOneCategory.py'
 #
-# dataBooksPerCategory.csv will appear in the folder 'scraped_datas'.
+# dataBooksPerCategory_[Category].csv will appear in the folder 'scraped_datas'.
 
 import scrapeFunctions # the main function of this script is located in scrapeFunctions.py
 
 # declaring the variable that will be the url to parse
 url = 'https://books.toscrape.com/catalogue/category/books/sequential-art_5/index.html'
 
-# calling the main function
+# calling the main function with the argument neeeded
 scrapeFunctions.find_all_books_per_category(url)
