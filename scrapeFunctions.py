@@ -1,3 +1,5 @@
+# all the main functions are grouped in this file
+
 import requests # to make the get request to the url
 from bs4 import BeautifulSoup # to parse the html
 import csv # to write the csv file
@@ -9,7 +11,7 @@ urlbase = 'https://books.toscrape.com/'
 # defining the function to find all the datas listed in the intro-description
 # using a function, because it will be reused in another module
 
-# function to find the review_rating
+# function to find the review_rating: will be used by find_datas()
 def find_rating(string_to_parse):
     raitings = {'One': 1, 'Two': 2, 'Three': 3, "Four": 4, "Five": 5}
     review_rating = None
