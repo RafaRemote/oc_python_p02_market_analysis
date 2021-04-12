@@ -45,7 +45,8 @@ import csv # to write the csv file
 import re # for regex operations
 import scrapeFunctions 
 
-checkDir('scraped_datas')
+destination_dir = "scrapedOneBook "
+scrapeFunctions.checkDir(destination_dir)
 
 # the first paramater of the function find_datas()
 url = 'https://books.toscrape.com/catalogue/twenty-yawns_773/index.html'
@@ -57,12 +58,12 @@ nameOfBook = re.split('_[0-9].+$', url[37:].capitalize())[0]
 print("Data from the book ", nameOfBook, " is being written in a csv file, please wait...")
 
 # creating the csv file with the name of the columns
-with open('../scraped_datas/dataOneBook_' + nameOfBook + '.csv', 'w', newline='') as a_csv_csv:
+with open('../' + destination_dir + '/dataOneBook_' + nameOfBook + '.csv', 'w', newline='') as a_csv_csv:
             csv_writer = csv.writer(a_csv_csv)
             csv_writer.writerow(['product_page_url', 'universal_product_code(upc)', 'title', 'price_including_tax', 'price_excluding_tax', 'number_available', 'product_description', 'category', 'review_rating', 'image_url'])
 
 # calling the function with the two arguments needed
-find_datas(url, 'dataOneBook_' + nameOfBook + '.csv')
+scrapeFunctions.find_datas(url, 'dataOneBook_' + nameOfBook + '.csv', destination_dir)
 
 # informing the user in the console
 print("The csv file created is available in the directory: 'scraped_datas'")

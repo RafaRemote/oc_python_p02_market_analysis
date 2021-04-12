@@ -7,8 +7,6 @@ import re # for regex operations
 import itertools # for the iteration to infinity
 import os.path # to create a directory if no exsiting
 
-scraped_images_dir = '../scraped_images'
-
 urlbase = 'https://books.toscrape.com/'
           
 # check if a directory exists or not, creating it when needed
@@ -17,11 +15,12 @@ def checkDir(dirname):
     directory = dirname
     parent_directory = "../"
     path = os.path.join(parent_directory, directory)
+    while not os.path.isdir(dirname):
+        try:
+            os.mkdir(path)
+        except:
+            break
 
-    if not os.path.isdir(dirname):
-        print('destination ' + dirname + ' directory is not existing -> Creating ' + dirname + ' directory.')
-        os.mkdir(dirname)
- 
 # function to find the review_rating: will be used by find_datas()
 def find_rating(string_to_parse):
     raitings = {'One': 1, 'Two': 2, 'Three': 3, "Four": 4, "Five": 5}
@@ -31,8 +30,7 @@ def find_rating(string_to_parse):
             review_rating = raitings[rating]
             return review_rating
 
-
-def find_datas(url_to_parse, a_csv):
+def find_datas(url_to_parse, a_csv, destination_dir):
     response = requests.get(url_to_parse) # requesting
     if response.ok:
         soup = BeautifulSoup(response.text, 'lxml') # to parse the html
@@ -45,19 +43,24 @@ def find_datas(url_to_parse, a_csv):
         category = soup.findAll('a')[3].text  # find the category
         review_rating = find_rating(str(soup.find("p", {"class": "star-rating"})))  # find the review_rating using the function defined above 
         image_url = urlbase + soup.find("img")['src'][5:] # find the image_url
-        with open("../scraped_datas/" + a_csv, 'a', newline='') as a_csv_csv:
+        with open("../" + destination_dir + "/" + a_csv, 'a', newline='') as a_csv_csv:
             csv_writer = csv.writer(a_csv_csv)
             csv_writer.writerow([url_to_parse, upc, title, price_including_tax, price_excluding_tax, number_available, product_description, category, review_rating, image_url ])
     else:
         print('not able to get this url')
 
-
-def find_all_books_per_category(url):
+def find_all_books_per_category(url, destin_dir):
 
     urlbase = 'https://books.toscrape.com/catalogue/'
 
     # name of the category
     category = re.split('_[0-9].+$', url[52:].capitalize())[0]
+
+    # creating the csv that will be populated with datas
+    out_csv = '../'+ destin_dir + '/dataBooksPerCategory_' + category + '.csv'
+    with open(out_csv, 'w', newline='') as a_csv_csv:
+        csv_writer = csv.writer(a_csv_csv)
+        csv_writer.writerow(['product_page_url', 'universal_product_code(upc)', 'title', 'price_including_tax', 'price_excluding_tax', 'number_available', 'product_description', 'category', 'review_rating', 'image_url'])
 
     # informing the user in the console
     print("creating the csv files containing all the book datas for the category: ", category)
@@ -77,12 +80,6 @@ def find_all_books_per_category(url):
     # creating a list which will be populated with the product urls    
     product_url_list = list() 
 
-    # creating the csv that will be populated with datas
-    out_csv = '../scraped_datas/dataBooksPerCategory_' + category + '.csv'
-    with open(out_csv, 'w', newline='') as a_csv_csv:
-        csv_writer = csv.writer(a_csv_csv)
-        csv_writer.writerow(['product_page_url', 'universal_product_code(upc)', 'title', 'price_including_tax', 'price_excluding_tax', 'number_available', 'product_description', 'category', 'review_rating', 'image_url'])
-
     # creating a function: will parse a url, create a list, and write a csv file.
     def extract_product_url(a_url, a_list):
         response = requests.get(a_url)
@@ -96,7 +93,8 @@ def find_all_books_per_category(url):
                 if ((re.match(searchingFor, i['href'])) and not (re.match(notsearchingFor, i['href'])) and not ((urlbase + i['href'][9:]) in a_list)):
                     product_url = urlbase + i['href'][9:]
                     a_list.append(product_url)
-                    find_datas(product_url, out_csv)
+                    out_csv = 'dataBooksPerCategory_' + category + '.csv'
+                    find_datas(product_url, out_csv, destin_dir)
         else:
             print('unable to get the url :', a_url, response)
     
@@ -121,5 +119,3 @@ def saveImageUrl(url):
         if(response.ok):      
             with open('../scraped_images', 'w') as f:
                 f.write(image_url)
-
-

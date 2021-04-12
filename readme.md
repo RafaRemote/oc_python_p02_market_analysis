@@ -25,7 +25,7 @@ or
 
 ## Descriptions of scripts
 
-_Note that each scripts will extract informations and that these informations will be stored in the folder: *scraped_datas* for the csv files and in the folder *scraped_images* for the image files._
+_Note that Each script will create its own folder to store the extracted informations: csv or images_
 
 ### 1. scrapeOneBook.py
 
@@ -42,7 +42,7 @@ will extract the following datas:
 * review_rating
 * image_url
 
-and will write them in a file: dataOneBook_[name of the book].csv
+will store the data above in the auto-generated folder: _scrapedOneBook_
 
 ### 2. scrapeBooksPerCategory.py
 
@@ -50,12 +50,18 @@ will extract the product url of each book for one category, then it will concate
 
 will write a file: dateBooksPerCategory_[category].csv
 
+will store this file in the auto-generated folder: _scrapedOneCategory_
+
 ### 3. scrapeBooksPerAllCategories.py
 
 will extract all the informations for each book of each categories. 
 
 will write one csv file for each category, using the same form defined above: dateBooksPerCategory_[category].csv
 
+will store all these files in the auto-generated folder: _scrapedAllCategories_
+
 ### 4. scrapeImageOfEachProductSeen.py
 
 will save the images of the products that you have visited in the folder *scraped_images*.
+
+will store these images in the auto-generated folder: _scrapeImages_

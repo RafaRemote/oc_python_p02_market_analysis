@@ -23,7 +23,8 @@ import re # for regex operations
 import csv # to create the csv files
 import scrapeFunctions
 
-checkDir('scraped_datas')
+destination_dir = 'scrapedAllCategories'
+scrapeFunctions.checkDir(destination_dir)
 
 # declaring all the variables needed
 url = 'https://books.toscrape.com/'
@@ -45,16 +46,10 @@ for i in a_tags:
 print("----------There is a total of: ", len(categories_list)-1, " categories to parse.----------")
 length_left = len(categories_list)-1
 for i in range(1, len(categories_list), 1):
-    scrapeFunctions.find_all_books_per_category(categories_list[i])
+    scrapeFunctions.find_all_books_per_category(categories_list[i], destination_dir)
     length_left -= 1
     print("----------there is: ", length_left, " categories left to parse.----------")
 
-
-
-
-
-
-      
 
 
 
