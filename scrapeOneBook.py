@@ -4,7 +4,7 @@
 # 
 # replace the url variable defined below by the one of the product page you have chosen
 # 
-# launch the script: python3 scrapeOneBook.py
+# launch the script: 'python3 scrapeOneBook.py'
 # 
 # the script will extract the following 10 informations:
 # 
