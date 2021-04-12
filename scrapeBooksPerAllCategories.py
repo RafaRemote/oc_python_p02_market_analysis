@@ -4,8 +4,9 @@
 - main project: Price Scraping
 - target Website: books.toscrape.com
 
-this script will extract all the informations for all the books of the target website.
-it will write one csv file per category, format: 'dataBooksPerCategory_[Category].csv'.
+will extract all the informations for all the books of the target website.
+will write one csv file per category, format: 'dataBooksPerCategory_[Category].csv'.
+will store the image found in the urls visited in the folder: 'scrapedImages'.
 
 Instructions:
 -------------
@@ -14,7 +15,8 @@ open a terminal
 check that you are in the folder 'python-web-scraping'
 type:  'python3 scrapeBooksPerAllCategories.py'.
 
-all 'dataBooksPerCategory_[Category].csv' files will appear in the folder 'scraped_datas'.
+all 'dataBooksPerCategory_[Category].csv' files will appear in the folder 'scrapedAllCategories'.
+image_[image name].jpg will appear in the folder 'scrapedImages".
 """
 
 import requests # to make the get request to the url

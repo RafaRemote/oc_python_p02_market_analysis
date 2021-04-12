@@ -4,7 +4,7 @@
 - main project: Price Scraping
 - target Website: books.toscrape.com
 
-this script will extract the following 10 informations for a chosen product on the target website:
+will extract the following 10 informations for a chosen product on the target website:
 
 product_page_url
 universal_ product_code (upc)
@@ -17,7 +17,8 @@ category
 review_rating
 image_url
 
-the script will write a csv file (dataOneBook.csv) with all these datas above.
+will write a csv file (dataOneBook.csv) with all these datas above.
+will store the image found in the url visited in the folder: 'scrapedImages'.
 
 Instructions for this script:
 ----------------------------
@@ -28,17 +29,9 @@ open a terminal
 check that you are in the folder 'python-web-scraping'
 type: 'python3 scrapeOneBook.py'
 
-dataOneBook_[name of the book].csv will appear in the folder 'scraped_datas'.
+dataOneBook_[name of the book].csv will appear in the folder 'scrapedOneBook'.
+image_[image name].jpg will appear in the folder 'scrapedImages".
 
-Main idea of this script:
--------------------------
-
-the main function is find_datas() located in scrapeFunctions.py,
-it takes two arguments: 
-first: the url to parse (url_to_parse) 
-second: the output csv we want (a_csv)
-
-therefore the purpose of these next lines is to define these two arguments that will be used by the function, when we will call it.
 """
 
 import csv # to write the csv file
@@ -66,4 +59,7 @@ with open('../' + destination_dir + '/dataOneBook_' + nameOfBook + '.csv', 'w', 
 scrapeFunctions.find_datas(url, 'dataOneBook_' + nameOfBook + '.csv', destination_dir)
 
 # informing the user in the console
-print("The csv file created is available in the directory: 'scraped_datas'")
+print("The csv file created is available in the directory: 'scrapedOneBook'")
+
+# script for the image extraction
+scrapeFunctions.saveImageUrl(url)

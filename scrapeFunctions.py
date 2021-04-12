@@ -93,6 +93,8 @@ def find_all_books_per_category(url, destin_dir):
                 notsearchingFor = "^../../../../"
                 if ((re.match(searchingFor, i['href'])) and not (re.match(notsearchingFor, i['href'])) and not ((urlbase + i['href'][9:]) in a_list)):
                     product_url = urlbase + i['href'][9:]
+                    print('saving image found @: ', product_url)
+                    saveImageUrl(product_url)
                     a_list.append(product_url)
                     out_csv = 'dataBooksPerCategory_' + category + '.csv'
                     find_datas(product_url, out_csv, destin_dir)
@@ -109,19 +111,16 @@ def find_all_books_per_category(url, destin_dir):
     print("No more pages to scrape for this category!")
     print("The csv file with the books for ", category, " is available in the folder 'scraped_datas'")
 
-def saveImageUrl(url, destination_dir):
+def saveImageUrl(url):
+    destination_dir = 'scrapedImages'
+    img_name = url.split('/')[-2].split('_')[-2]
+    checkDir(destination_dir)
     urlbase = 'https://books.toscrape.com'
     response = requests.get(url)
     image_url_list = list()
     if response.ok:
         soup = BeautifulSoup(response.text, 'lxml')
         image_url = urlbase + soup.find('img')['src'][5:]
-        image_id = re.split('([^\/]+$)', image_url)[-2]
         response = requests.get(image_url)
-        with open('../' + destination_dir + '/image_' + image_id, "wb") as f:
+        with open('../' + destination_dir + '/image_' + img_name + ".jpg", "wb") as f:
             f.write(response.content)
-
-
-        # file = open('../' + destination_dir + '/image_' + image_id, "wb")
-        # file.write(response.content)
-        # file.close()

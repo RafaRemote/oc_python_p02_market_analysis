@@ -4,9 +4,11 @@
 - main project: Price Scraping
 - target Website: books.toscrape.com
  
-this script will extract the product_page_url of each book of a chosen category on the target website, then:
-it will associate this data with the ones extracted by scrapeOneBook.py, then:
-it will write all the datas in one csv file: 'dataBooksPerCategory_[Category].csv'.
+will extract the product_page_url of each book of a chosen category on the target website, then:
+will associate this data with the ones extracted by scrapeOneBook.py, then:
+will write all the datas in one csv file: 'dataBooksPerCategory_[Category].csv',
+will store the folder: scrapedOneCategory,
+will store the image found in the urls visited in the folder: 'scrapedImages'.
 
 Instructions:
 -------------
@@ -19,7 +21,9 @@ open a terminal
 check that you are in the folder 'python-web-scraping'
 type: 'python3 scrapeBooksPerOneCategory.py'
 
-dataBooksPerCategory_[Category].csv will appear in the folder 'scraped_datas'.
+dataBooksPerCategory_[Category].csv will appear in the folder 'scrapedOneCategory'.
+image_[image name].jpg will appear in the folder 'scrapedImages".
+
 """
 
 import scrapeFunctions # the main function of this script is located in scrapeFunctions.py

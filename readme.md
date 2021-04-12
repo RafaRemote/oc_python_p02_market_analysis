@@ -1,7 +1,13 @@
 # Project: Price Scraping
 
-Here are the 4 scripts you asked for.
+Here are the 3 scripts you asked for.
 Target Website use for these processes: _books.toscrape.com_
+
+Functionalities:
+* scrape informations for one book
+* scrape informations for one categories
+* scrape informations for all categories
+* scrape image of each product page visited
 ## Instructions
 
 Clone the repository in the folder of your choice.
@@ -19,14 +25,9 @@ or
 
 'python3 scrapeBooksPerAllCategories.py'
 
-or
-
-'python3 scrapeImageOfEachProductSeen.py'
-
 ## Descriptions of scripts
 
-_Note that Each script will create its own folder to store the extracted informations: csv or images_
-
+_Note that Each script will create folders to store the extracted informations: csv or images_
 ### 1. scrapeOneBook.py
 
 will extract the following datas:
@@ -43,25 +44,18 @@ will extract the following datas:
 * image_url
 
 will store the data above in the auto-generated folder: _scrapedOneBook_
+will store the image of the product page visited in the auto-generated folder: _scrapedImages_.
 
 ### 2. scrapeBooksPerCategory.py
 
 will extract the product url of each book for one category, then it will concatenate this information with the 10 other ones listed above.
-
 will write a file: dateBooksPerCategory_[category].csv
-
 will store this file in the auto-generated folder: _scrapedOneCategory_
+will store the image of the product pages visited in the auto-generated folder: _scrapedImages_.
 
 ### 3. scrapeBooksPerAllCategories.py
 
 will extract all the informations for each book of each categories. 
-
 will write one csv file for each category, using the same form defined above: dateBooksPerCategory_[category].csv
-
 will store all these files in the auto-generated folder: _scrapedAllCategories_
-
-### 4. scrapeImageOfEachProductSeen.py
-
-will save the images of the products that you have visited in the folder *scrapedImages*.
-
-will store these images in the auto-generated folder: _scrapeImages_
+will store the image of the product pages visited in the auto-generated folder: _scrapedImages_.
