@@ -49,10 +49,3 @@ for i in range(1, len(categories_list), 1):
     scrapeFunctions.find_all_books_per_category(categories_list[i], destination_dir)
     length_left -= 1
     print("----------there is: ", length_left, " categories left to parse.----------")
-
-
-
-
-        
-
-

@@ -6,6 +6,7 @@ import csv # to write the csv file
 import re # for regex operations
 import itertools # for the iteration to infinity
 import os.path # to create a directory if no exsiting
+import urllib
 
 urlbase = 'https://books.toscrape.com/'
           
@@ -108,14 +109,19 @@ def find_all_books_per_category(url, destin_dir):
     print("No more pages to scrape for this category!")
     print("The csv file with the books for ", category, " is available in the folder 'scraped_datas'")
 
-def saveImageUrl(url):
+def saveImageUrl(url, destination_dir):
     urlbase = 'https://books.toscrape.com'
     response = requests.get(url)
     image_url_list = list()
     if response.ok:
         soup = BeautifulSoup(response.text, 'lxml')
         image_url = urlbase + soup.find('img')['src'][5:]
+        image_id = re.split('([^\/]+$)', image_url)[-2]
         response = requests.get(image_url)
-        if(response.ok):      
-            with open('../scraped_images', 'w') as f:
-                f.write(image_url)
+        with open('../' + destination_dir + '/image_' + image_id, "wb") as f:
+            f.write(response.content)
+
+
+        # file = open('../' + destination_dir + '/image_' + image_id, "wb")
+        # file.write(response.content)
+        # file.close()

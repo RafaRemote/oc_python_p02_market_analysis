@@ -1,5 +1,7 @@
-/scraped_datas
-/scraped_images
+/scrapedOneBook
+/scrapedOneCategory
+/srapedAllCategories
+/scrapedImages
 __pycache__
 
 # python boilerplate gitignore

@@ -7,8 +7,9 @@
 
 import scrapeFunctions
 
-scrapeFunctions.checkDir('scrapedImages')
+destination_dir = 'scrapedImages'
+scrapeFunctions.checkDir(destination_dir)
 
 url = 'https://books.toscrape.com/catalogue/a-light-in-the-attic_1000/index.html'
 
-scrapeFunctions.saveImageUrl(url)
+scrapeFunctions.saveImageUrl(url, destination_dir)

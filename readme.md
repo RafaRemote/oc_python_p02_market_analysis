@@ -62,6 +62,6 @@ will store all these files in the auto-generated folder: _scrapedAllCategories_
 
 ### 4. scrapeImageOfEachProductSeen.py
 
-will save the images of the products that you have visited in the folder *scraped_images*.
+will save the images of the products that you have visited in the folder *scrapedImages*.
 
 will store these images in the auto-generated folder: _scrapeImages_
