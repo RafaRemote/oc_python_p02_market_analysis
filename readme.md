@@ -7,8 +7,7 @@ Target Website use for these processes: _books.toscrape.com_
 
 ## Instructions
 
-
-
+(...will be added soon...)
 ## Descriptions of scripts
 
 _Note that each scripts will extract informations that will be stored in the folder: *scraped_datas*._
