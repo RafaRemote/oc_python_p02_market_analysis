@@ -7,10 +7,31 @@ Target Website use for these processes: _books.toscrape.com_
 
 ## Instructions
 
-(...will be added soon...)
+Once you have cloned this repository, in the folder where you have cloned 'python-web-scraping', create the folders: *scraped_datas* and *scraped_images*.
+
+Check the descriptions of the scripts you want to use before using them.
+
+Open a terminal and check that you are in the folder: 'python-web-scraping', then:
+
+you can use the scripts by typing:
+
+'python3 scrapeOneBook.py'
+
+or
+
+'python3 scrapeBooksPerOneCategory.py'
+
+or
+
+'python3 scrapeBooksPerAllCategories.py'
+
+or
+
+'python3 scrapeImagesOfEachProductseen.py'
+
 ## Descriptions of scripts
 
-_Note that each scripts will extract informations that will be stored in the folder: *scraped_datas*._
+_Note that each scripts will extract informations and that these informations will be stored in the folder: *scraped_datas* for the csv files amd in the folder *scraped_images* for the image files._
 
 ### 1. scrapeOneBook.py
 
@@ -43,6 +64,4 @@ will write one csv file for each category, using the same form defined above: da
 
 ### 4. scrapeImagesOfEachProductseen.py
 
-will save the images
-
-
+will save the images of the products that you have visited in the folder *scraped_images*.
