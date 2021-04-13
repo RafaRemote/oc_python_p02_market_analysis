@@ -5,10 +5,10 @@ The Target Website use for these processes is https://books.toscrape.com/
   
 #### Usage cases
 
-- [x] scrape informations for one book
-- [x] scrape informations for one category
-- [x] scrape informations for all categories
-- [x] scrape image of each product page visited
+- [x] scrape informations for __ONE BOOK__
+- [x] scrape informations for __ONE CATEGORY OF BOOK__
+- [x] scrape informations for __ALL CATEGORIES OF BOOKS__
+- [x] scrape __BOOK IMAGE OF EACH PRODUCT PAGE VISITED__
   
 ## Installation
 
@@ -18,7 +18,7 @@ Clone the repository in the folder of your choice.
 
 #### Usage cases
 - [x] scrape informations for one book
-- [x] scrape image of each product page visited
+- [x] scrape book image of each product page visited
 
 will extract the following datas:
 
@@ -47,8 +47,8 @@ python3 scrapeOneBook.py
   
 ### 2. scrapeBooksPerCategory.py
 #### Usage cases
-- [x] scrape informations for one book
-- [x] scrape informations for one category
+- [x] scrape informations for one category of book
+- [x] scrape book informations for one category
 
 will extract the product url of each book for one category, then it will concatenate this information with the 10 other ones listed above.  
 will write a file: dateBooksPerCategory_[category].csv  
@@ -66,8 +66,8 @@ python3 scrapeBooksPerOneCategory.py
   
 ### 3. scrapeBooksPerAllCategories.py
 #### Usage cases
-- [x] scrape informations for all categories
-- [x] scrape image of each product page visited
+- [x] scrape informations for all categories of books
+- [x] scrape book image of each product page visited
 
 will extract all the informations for each book of each categories.  
 will write one csv file for each category, using the same form defined above: dateBooksPerCategory_[category].csv  
