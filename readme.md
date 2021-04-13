@@ -3,7 +3,7 @@
 Here are the scripts you asked for.  
 The Target Website use for these processes is [https://books.toscrape.com/]
   
-## Usage cases
+#### Usage cases
 
 - [x] scrape informations for one book
 - [x] scrape informations for one category
@@ -16,7 +16,7 @@ Clone the repository in the folder of your choice.
   
 ### 1. scrapeOneBook.py
 
-## Usage cases
+#### Usage cases
 - [x] scrape informations for one book
 - [x] scrape image of each product page visited
 
@@ -36,7 +36,7 @@ will extract the following datas:
 will store the data above in the auto-generated folder: _scrapedOneBook_  
 will store the image of the product page visited in the auto-generated folder: _scrapedImages_.  
 
-## command
+#### command
 
 Open a terminal and check that you are in the folder: 'python-web-scraping'.  
 You can use the script by typing:  
@@ -46,7 +46,7 @@ python3 scrapeOneBook.py
 ```
   
 ### 2. scrapeBooksPerCategory.py
-## Usage cases
+#### Usage cases
 - [x] scrape informations for one book
 - [x] scrape informations for one category
 
@@ -55,7 +55,7 @@ will write a file: dateBooksPerCategory_[category].csv
 will store this file in the auto-generated folder: _scrapedOneCategory_  
 will store the image of the product pages visited in the auto-generated folder: _scrapedImages_.  
 
-## command
+#### command
 
 Open a terminal and check that you are in the folder: 'python-web-scraping'.  
 You can use the script by typing:  
@@ -65,7 +65,7 @@ python3 scrapeBooksPerOneCategory.py
 ```
   
 ### 3. scrapeBooksPerAllCategories.py
-## Usage cases
+#### Usage cases
 - [x] scrape informations for all categories
 - [x] scrape image of each product page visited
 
@@ -74,7 +74,7 @@ will write one csv file for each category, using the same form defined above: da
 will store all these files in the auto-generated folder: _scrapedAllCategories_ 
 will store the image of the product pages visited in the auto-generated folder: _scrapedImages_.  
 
-## command
+#### command
 
 Open a terminal and check that you are in the folder: 'python-web-scraping'.  
 You can use the script by typing:  
