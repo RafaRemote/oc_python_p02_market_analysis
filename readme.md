@@ -14,7 +14,7 @@ The Target Website use for these processes is https://books.toscrape.com/
 
 Clone the repository in the folder of your choice.  
   
-### 1. scrapeOneBook.py
+### 1. One book scraping
 
 #### Usage cases
 - [x] scrape informations for one book
@@ -45,7 +45,7 @@ You can use the script by typing:
 python3 scrapeOneBook.py  
 ```
   
-### 2. scrapeBooksPerCategory.py
+### 2. One category of book
 #### Usage cases
 - [x] scrape informations for one category of book
 - [x] scrape book informations for one category
@@ -64,7 +64,7 @@ You can use the script by typing:
 python3 scrapeBooksPerOneCategory.py  
 ```
   
-### 3. scrapeBooksPerAllCategories.py
+### 3. All categories of book scraping
 #### Usage cases
 - [x] scrape informations for all categories of books
 - [x] scrape book image of each product page visited
@@ -82,3 +82,7 @@ You can use the script by typing:
 ```
 python3 scrapeBooksPerAllCategories.py  
 ```
+  
+### 4. Book image scraping
+
+Each time a product page is visited by a script, the script does store the image of the book in an auto-generated folder: _scrapedImages_.
