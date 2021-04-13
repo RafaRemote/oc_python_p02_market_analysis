@@ -1,7 +1,7 @@
 # Project: Price Scraping
 
 Here are the scripts you asked for.  
-The Target Website use for these processes is [https://books.toscrape.com/]
+The Target Website use for these processes is https://books.toscrape.com/
   
 #### Usage cases
 
