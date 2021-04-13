@@ -21,12 +21,13 @@ def checkOneDir(directory):
             os.mkdir(path)
         except:
             break
+            
 
 def checkDir(directory, category):
     parent_directory = "../"
     checkOneDir(directory)
     path = os.path.join(parent_directory, directory, category)
-    print(path)
+    print("path checked", path)
     while not os.path.isdir(path):
         try:
             os.mkdir(path)
@@ -63,13 +64,17 @@ def find_datas(url_to_parse, a_csv, destination_dir):
 
 def find_all_books_per_category(url, destin_dir):
 
+    print('destin_dir', destin_dir)
+
     urlbase = 'https://books.toscrape.com/catalogue/'
 
     # name of the category
     category = re.split('_[0-9].+$', url[52:].capitalize())[0]
 
-    # creating the csv that will be populated with datas
-    out_csv = '../'+ destin_dir + '/dataBooksPerCategory_' + category + '.csv'
+    # writing data in the destination dir
+    out_csv ='../'+ destin_dir + '/' + category + '/dataBooksPerCategory_' + category + '.csv'
+    print('out_csv', out_csv)
+    checkDir(destin_dir, category)
     with open(out_csv, 'w', newline='') as a_csv_csv:
         csv_writer = csv.writer(a_csv_csv)
         csv_writer.writerow(['product_page_url', 'universal_product_code(upc)', 'title', 'price_including_tax', 'price_excluding_tax', 'number_available', 'product_description', 'category', 'review_rating', 'image_url'])
@@ -93,6 +98,7 @@ def find_all_books_per_category(url, destin_dir):
     product_url_list = list() 
 
     # creating a function: will parse a url, create a list, and write a csv file.
+    # each time a product page is visited: saveImagUr() will store the image of the book in the folder scrapedImages
     def extract_product_url(a_url, a_list):
         response = requests.get(a_url)
         if response.ok:
@@ -107,7 +113,7 @@ def find_all_books_per_category(url, destin_dir):
                     print('saving image found @: ', product_url)
                     saveImageUrl(product_url, category)
                     a_list.append(product_url)
-                    out_csv = 'dataBooksPerCategory_' + category.replace('-', ' ') + '.csv'
+                    out_csv = category + '/' + 'dataBooksPerCategory_' + category + '.csv'
                     find_datas(product_url, out_csv, destin_dir)
         else:
             print('unable to get the url :', a_url, response)

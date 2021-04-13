@@ -38,15 +38,12 @@ import csv # to write the csv file
 import re # for regex operations
 import scrapeFunctions 
 
-destination_dir = "scrapedOneBook "
-scrapeFunctions.checkOneDir(destination_dir)
-
 # the first paramater of the function find_datas()
-url = 'https://books.toscrape.com/catalogue/twenty-yawns_773/index.html'
-
-# now working building the second argument for the second parameter of find_datas()
+url = 'https://books.toscrape.com/catalogue/the-lucifer-effect-understanding-how-good-people-turn-evil_758/index.html'
 nameOfBook = re.split('_[0-9].+$', url[37:].capitalize())[0]
-
+destination_dir = "scrapedOneBook/" + nameOfBook
+scrapeFunctions.checkDir("scrapedOneBook", nameOfBook)
+category = nameOfBook
 # informing the user in the console
 print("Data from the book ", nameOfBook, " is being written in a csv file, please wait...")
 
@@ -62,4 +59,4 @@ scrapeFunctions.find_datas(url, 'dataOneBook_' + nameOfBook + '.csv', destinatio
 print("The csv file created is available in the directory: 'scrapedOneBook'")
 
 # script for the image extraction
-scrapeFunctions.saveImageUrl(url)
+scrapeFunctions.saveImageUrl(url, category)

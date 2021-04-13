@@ -37,4 +37,5 @@ destination_dir = 'scrapedOneCategory'
 scrapeFunctions.checkDir(destination_dir, category)
 
 # calling the main function with the arguments needed. Second argument = amount of url to parse.
+print('destination dir called', destination_dir)
 scrapeFunctions.find_all_books_per_category(url, destination_dir)
