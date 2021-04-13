@@ -17,9 +17,13 @@ Open a terminal and check that you are in the folder: 'python-web-scraping'.
 You can use the scripts by typing:  
   
 > python3 scrapeOneBook.py  
+  
 or  
+  
 > python3 scrapeBooksPerOneCategory.py  
+  
 or  
+  
 > python3 scrapeBooksPerAllCategories.py  
   
 ## Descriptions of scripts
