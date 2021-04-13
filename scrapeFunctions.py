@@ -9,8 +9,7 @@ import os.path # to create a directory if no exsiting
 
 urlbase = 'https://books.toscrape.com/'
           
-# check if a directory exists or not, creating it when needed
-
+# check if a directory exists or not, created when not existing
 def checkOneDir(directory):
     parent_directory = "../"
     path = os.path.join(parent_directory, directory)
@@ -19,10 +18,11 @@ def checkOneDir(directory):
             os.mkdir(path)
         except:
             break
-            
+
+# check if a path (../directory/category) does exsit or not, created if not            
 def checkDir(directory, category):
     parent_directory = "../"
-    checkOneDir(directory)
+    checkOneDir(directory) 
     path = os.path.join(parent_directory, directory, category)
     while not os.path.isdir(path):
         try:
@@ -91,17 +91,15 @@ def find_all_books_per_category(url, destin_dir):
     product_url_list = list() 
 
     # creating a function: will parse a url, create a list, and write a csv file.
-    # each time a product page is visited: saveImagUr() will store the image of the book in the folder scrapedImages
+    # each time a product page is visited: saveImagUr() is called and will store the image of the book in the folder scrapedImages
     def extract_product_url(a_url, a_list):
         response = requests.get(a_url)
         if response.ok:
             soup = BeautifulSoup(response.text, 'lxml')
             a_tag = soup.findAll('a') 
             for i in a_tag: 
-                a_href = i['href']  
-                searchingFor = "^../../../"   
-                notsearchingFor = "^../../../../"
-                if ((re.match(searchingFor, i['href'])) and not (re.match(notsearchingFor, i['href'])) and not ((urlbase + i['href'][9:]) in a_list)):
+                a_href = i['href']
+                if (i.count('../')=== 3):
                     product_url = urlbase + i['href'][9:]
                     print('saving image found @: ', product_url)
                     saveImageUrl(product_url, destin_dir + '/' + category + '/' + 'Cover Images')
