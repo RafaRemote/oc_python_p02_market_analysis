@@ -12,11 +12,22 @@ urlbase = 'https://books.toscrape.com/'
           
 # check if a directory exists or not, creating it when needed
 
-def checkDir(dirname):
-    directory = dirname
+
+def checkOneDir(directory):
     parent_directory = "../"
     path = os.path.join(parent_directory, directory)
-    while not os.path.isdir(dirname):
+    while not os.path.isdir(path):
+        try:
+            os.mkdir(path)
+        except:
+            break
+
+def checkDir(directory, category):
+    parent_directory = "../"
+    checkOneDir(directory)
+    path = os.path.join(parent_directory, directory, category)
+    print(path)
+    while not os.path.isdir(path):
         try:
             os.mkdir(path)
         except:
@@ -94,9 +105,9 @@ def find_all_books_per_category(url, destin_dir):
                 if ((re.match(searchingFor, i['href'])) and not (re.match(notsearchingFor, i['href'])) and not ((urlbase + i['href'][9:]) in a_list)):
                     product_url = urlbase + i['href'][9:]
                     print('saving image found @: ', product_url)
-                    saveImageUrl(product_url)
+                    saveImageUrl(product_url, category)
                     a_list.append(product_url)
-                    out_csv = 'dataBooksPerCategory_' + category + '.csv'
+                    out_csv = 'dataBooksPerCategory_' + category.replace('-', ' ') + '.csv'
                     find_datas(product_url, out_csv, destin_dir)
         else:
             print('unable to get the url :', a_url, response)
@@ -111,10 +122,10 @@ def find_all_books_per_category(url, destin_dir):
     print("No more pages to scrape for this category!")
     print("The csv file with the books for ", category, " is available in the folder 'scraped_datas'")
 
-def saveImageUrl(url):
+def saveImageUrl(url, category):
     destination_dir = 'scrapedImages'
     img_name = url.split('/')[-2].split('_')[-2]
-    checkDir(destination_dir)
+    checkDir(destination_dir, category)
     urlbase = 'https://books.toscrape.com'
     response = requests.get(url)
     image_url_list = list()
@@ -122,5 +133,5 @@ def saveImageUrl(url):
         soup = BeautifulSoup(response.text, 'lxml')
         image_url = urlbase + soup.find('img')['src'][5:]
         response = requests.get(image_url)
-        with open('../' + destination_dir + '/image_' + img_name + ".jpg", "wb") as f:
+        with open('../' + destination_dir + '/' + category + '/Cover of ' + img_name.replace('-', ' ').capitalize() + ".jpg", "wb") as f:
             f.write(response.content)

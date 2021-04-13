@@ -26,7 +26,7 @@ import csv # to create the csv files
 import scrapeFunctions
 
 destination_dir = 'scrapedAllCategories'
-scrapeFunctions.checkDir(destination_dir)
+scrapeFunctions.checkOneDir(destination_dir)
 
 # declaring all the variables needed
 url = 'https://books.toscrape.com/'

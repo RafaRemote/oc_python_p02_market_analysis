@@ -39,7 +39,7 @@ import re # for regex operations
 import scrapeFunctions 
 
 destination_dir = "scrapedOneBook "
-scrapeFunctions.checkDir(destination_dir)
+scrapeFunctions.checkOneDir(destination_dir)
 
 # the first paramater of the function find_datas()
 url = 'https://books.toscrape.com/catalogue/twenty-yawns_773/index.html'

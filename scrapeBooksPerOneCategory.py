@@ -27,12 +27,14 @@ image_[image name].jpg will appear in the folder 'scrapedImages".
 """
 
 import scrapeFunctions # the main function of this script is located in scrapeFunctions.py
-
-destination_dir = 'scrapedOneCategory'
-scrapeFunctions.checkDir(destination_dir)
+import re
 
 # declaring the variable that will be the url to parse
 url = 'https://books.toscrape.com/catalogue/category/books/sequential-art_5/index.html'
+
+category = re.split('_[0-9].+$', url[52:].capitalize())[0]
+destination_dir = 'scrapedOneCategory'
+scrapeFunctions.checkDir(destination_dir, category)
 
 # calling the main function with the arguments needed. Second argument = amount of url to parse.
 scrapeFunctions.find_all_books_per_category(url, destination_dir)
