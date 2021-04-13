@@ -17,8 +17,10 @@ category
 review_rating
 image_url
 
-will write a csv file (dataOneBook.csv) with all these datas above.
-will store the image found in the url visited in the folder: 'scrapedImages'.
+will create a folder: [name of the book]
+    inside this folder will write:
+        a csv file 'Data of [name of the book].csv' with all these datas above.
+        the image file 'Cover of [name of the book[.jpg' of the book 
 
 Instructions for this script:
 ----------------------------
@@ -29,8 +31,8 @@ open a terminal
 check that you are in the folder 'python-web-scraping'
 type: 'python3 scrapeOneBook.py'
 
-dataOneBook_[name of the book].csv will appear in the folder 'scrapedOneBook'.
-image_[image name].jpg will appear in the folder 'scrapedImages".
+'Data of [name of the book].csv' will appear in the folder [name of the book]
+'Cover of [name of the book[.jpg' will appear in the folder [name of the book]
 
 """
 
@@ -38,25 +40,24 @@ import csv # to write the csv file
 import re # for regex operations
 import scrapeFunctions 
 
-# the first paramater of the function find_datas()
-url = 'https://books.toscrape.com/catalogue/the-lucifer-effect-understanding-how-good-people-turn-evil_758/index.html'
+url = 'https://books.toscrape.com/catalogue/lab-girl_595/index.html'
 nameOfBook = re.split('_[0-9].+$', url[37:].capitalize())[0]
-destination_dir = "scrapedOneBook/" + nameOfBook
-scrapeFunctions.checkDir("scrapedOneBook", nameOfBook)
-category = nameOfBook
+destination_dir = "data per book/" + nameOfBook
+scrapeFunctions.checkDir("data per book", nameOfBook) # checking if directory is existing, if not, does create it
+
 # informing the user in the console
 print("Data from the book ", nameOfBook, " is being written in a csv file, please wait...")
 
 # creating the csv file with the name of the columns
-with open('../' + destination_dir + '/dataOneBook_' + nameOfBook + '.csv', 'w', newline='') as a_csv_csv:
+with open('../' + destination_dir + '/Data of ' + nameOfBook + '.csv', 'w', newline='') as a_csv_csv:
             csv_writer = csv.writer(a_csv_csv)
             csv_writer.writerow(['product_page_url', 'universal_product_code(upc)', 'title', 'price_including_tax', 'price_excluding_tax', 'number_available', 'product_description', 'category', 'review_rating', 'image_url'])
 
-# calling the function with the two arguments needed
-scrapeFunctions.find_datas(url, 'dataOneBook_' + nameOfBook + '.csv', destination_dir)
+# calling the function with the three arguments needed
+scrapeFunctions.find_datas(url, 'Data of ' + nameOfBook + '.csv', destination_dir)
 
 # informing the user in the console
 print("The csv file created is available in the directory: 'scrapedOneBook'")
 
-# script for the image extraction
-scrapeFunctions.saveImageUrl(url, category)
+# calling script for the image extraction
+scrapeFunctions.saveImageUrl(url, destination_dir)

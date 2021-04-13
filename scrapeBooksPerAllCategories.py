@@ -5,8 +5,9 @@
 - target Website: books.toscrape.com
 
 will extract all the informations for all the books of the target website.
-will write one csv file per category, format: 'dataBooksPerCategory_[Category].csv'.
-will store the image found in the urls visited in the folder: 'scrapedImages'.
+will create a folder 'data for all categories', in which there will be one folder per category.
+will write one csv file per category, format: 'dataBooksPerCategory_[Category].csv' in the: 'data for all categories/[category]'
+will store the image found in the urls visited in the folder: 'data for all categories/[category]/Cover Images'.
 
 Instructions:
 -------------
@@ -15,8 +16,7 @@ open a terminal
 check that you are in the folder 'python-web-scraping'
 type:  'python3 scrapeBooksPerAllCategories.py'.
 
-all 'dataBooksPerCategory_[Category].csv' files will appear in the folder 'scrapedAllCategories'.
-image_[image name].jpg will appear in the folder 'scrapedImages".
+the folder 'data for all categories' with data specified above.
 """
 
 import requests # to make the get request to the url
@@ -25,7 +25,7 @@ import re # for regex operations
 import csv # to create the csv files
 import scrapeFunctions
 
-destination_dir = 'scrapedAllCategories'
+destination_dir = 'data for all categories'
 scrapeFunctions.checkOneDir(destination_dir)
 
 # declaring all the variables needed

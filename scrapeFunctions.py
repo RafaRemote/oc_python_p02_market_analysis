@@ -6,12 +6,10 @@ import csv # to write the csv file
 import re # for regex operations
 import itertools # for the iteration to infinity
 import os.path # to create a directory if no exsiting
-import urllib
 
 urlbase = 'https://books.toscrape.com/'
           
 # check if a directory exists or not, creating it when needed
-
 
 def checkOneDir(directory):
     parent_directory = "../"
@@ -22,12 +20,10 @@ def checkOneDir(directory):
         except:
             break
             
-
 def checkDir(directory, category):
     parent_directory = "../"
     checkOneDir(directory)
     path = os.path.join(parent_directory, directory, category)
-    print("path checked", path)
     while not os.path.isdir(path):
         try:
             os.mkdir(path)
@@ -63,9 +59,6 @@ def find_datas(url_to_parse, a_csv, destination_dir):
         print('not able to get this url')
 
 def find_all_books_per_category(url, destin_dir):
-
-    print('destin_dir', destin_dir)
-
     urlbase = 'https://books.toscrape.com/catalogue/'
 
     # name of the category
@@ -111,7 +104,7 @@ def find_all_books_per_category(url, destin_dir):
                 if ((re.match(searchingFor, i['href'])) and not (re.match(notsearchingFor, i['href'])) and not ((urlbase + i['href'][9:]) in a_list)):
                     product_url = urlbase + i['href'][9:]
                     print('saving image found @: ', product_url)
-                    saveImageUrl(product_url, category)
+                    saveImageUrl(product_url, destin_dir + '/' + category + '/' + 'Cover Images')
                     a_list.append(product_url)
                     out_csv = category + '/' + 'dataBooksPerCategory_' + category + '.csv'
                     find_datas(product_url, out_csv, destin_dir)
@@ -128,10 +121,9 @@ def find_all_books_per_category(url, destin_dir):
     print("No more pages to scrape for this category!")
     print("The csv file with the books for ", category, " is available in the folder 'scraped_datas'")
 
-def saveImageUrl(url, category):
-    destination_dir = 'scrapedImages'
+def saveImageUrl(url, destination_dir):
+    checkOneDir(destination_dir)
     img_name = url.split('/')[-2].split('_')[-2]
-    checkDir(destination_dir, category)
     urlbase = 'https://books.toscrape.com'
     response = requests.get(url)
     image_url_list = list()
@@ -139,5 +131,5 @@ def saveImageUrl(url, category):
         soup = BeautifulSoup(response.text, 'lxml')
         image_url = urlbase + soup.find('img')['src'][5:]
         response = requests.get(image_url)
-        with open('../' + destination_dir + '/' + category + '/Cover of ' + img_name.replace('-', ' ').capitalize() + ".jpg", "wb") as f:
+        with open('../' + destination_dir + '/Cover of ' + img_name.capitalize() + ".jpg", "wb") as f:
             f.write(response.content)
