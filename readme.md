@@ -16,15 +16,17 @@ Check the descriptions of the scripts you want to use before using them.
 Open a terminal and check that you are in the folder: 'python-web-scraping'.  
 You can use the scripts by typing:  
   
-> python3 scrapeOneBook.py  
-  
+```
+python3 scrapeOneBook.py  
+```
 or  
-  
-> python3 scrapeBooksPerOneCategory.py  
-  
+```
+python3 scrapeBooksPerOneCategory.py  
+```
 or  
-  
-> python3 scrapeBooksPerAllCategories.py  
+```
+python3 scrapeBooksPerAllCategories.py  
+```
   
 ## Descriptions of scripts
 
