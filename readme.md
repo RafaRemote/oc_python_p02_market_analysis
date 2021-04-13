@@ -51,7 +51,7 @@ python3 scrapeOneBook.py
 - [x] scrape book informations for one category
 
 will extract the product url of each book for one category, then it will concatenate this information with the 10 other ones listed above.  
-will write a file: dateBooksPerCategory_[category].csv  
+will write a file: dataBooksPerCategory_[category].csv  
 will store this file in the auto-generated folder: _scrapedOneCategory_  
 will store the image of the product pages visited in the auto-generated folder: _scrapedImages_.  
 
@@ -70,7 +70,7 @@ python3 scrapeBooksPerOneCategory.py
 - [x] scrape book image of each product page visited
 
 will extract all the informations for each book of each categories.  
-will write one csv file for each category, using the same form defined above: dateBooksPerCategory_[category].csv  
+will write one csv file for each category, using the same form defined above: dataBooksPerCategory_[category].csv  
 will store all these files in the auto-generated folder: _scrapedAllCategories_ 
 will store the image of the product pages visited in the auto-generated folder: _scrapedImages_.  
 
