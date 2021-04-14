@@ -1,7 +1,6 @@
-/scrapedOneBook
-/scrapedOneCategory
-/srapedAllCategories
-/scrapedImages
+/oneBook
+/oneCategory
+/allCategories
 __pycache__
 /env
 
