@@ -17,15 +17,13 @@ Clone the repository in the folder of your choice.
 
 ## commands 
 
-in the terminal, type 
-
 ```
 python3 scrape.py [arg1] [arg2] [arg3]
 ```
 
 arg1 is for one book scraping : type the url of the page of a chosen book on books.toscrape.com.  
-arg2 is for one category scraping: type the name of the category you want to scrape. (onbly lowecases and dashes instead of spaces).
-arg3 is for for all categories scraping: type 'everything' to scrape all the categories in one time.
+arg2 is for one category scraping: type the name of the category you want to scrape. (onbly lowecases and dashes instead of spaces).  
+arg3 is for for all categories scraping: type 'everything' to scrape all the categories in one time.  
 
 when you don't to scrape one of the 3, just type 'pass'.
 
