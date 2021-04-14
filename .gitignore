@@ -3,6 +3,7 @@
 /srapedAllCategories
 /scrapedImages
 __pycache__
+/env
 
 # python boilerplate gitignore
 # https://github.com/github/gitignore/blob/master/Python.gitignore

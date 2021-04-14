@@ -99,7 +99,7 @@ def find_all_books_per_category(url, destin_dir):
             a_tag = soup.findAll('a') 
             for i in a_tag: 
                 a_href = i['href']
-                if (i.count('../')=== 3):
+                if (i.count('../')== 3):
                     product_url = urlbase + i['href'][9:]
                     print('saving image found @: ', product_url)
                     saveImageUrl(product_url, destin_dir + '/' + category + '/' + 'Cover Images')
