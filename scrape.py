@@ -7,12 +7,15 @@ import sys
 import itertools
 
 chooser = (sys.argv[1])
-funChoice = (sys.argv[2])
+funArgChoice = (sys.argv[2])
 folderChoice = (sys.argv[3])
 csvChoice = (sys.argv[4])
+imageChoice = (sys.argv[5])
 
 urlbase = "https://books.toscrape.com/"
 urlbasecat = urlbase + "catalogue/category/books/"
+
+
 
 category_list = []
 response_homepage = requests.get(urlbase)
@@ -37,24 +40,38 @@ for j in categories_list:
     categories_list_full.append(j + '_' + str(i))
     i += 1
 
-def chooser(choice, funChoice, folderChoice, csvChoice):
+
+def myCsvWriter(folderChoice, csvChoice):
+    while not os.path.isdir(folderChoice):
+                try:
+                    os.makedirs(folderChoice)
+                except:
+                    print("there was a problem with the path ", folderChoice)
+                    break
+    with open(folderChoice + '/' + csvChoice + '.csv' , 'w', newline='') as pathCsv:
+                csv_writer = csv.writer(pathCsv)
+                csv_writer.writerow(['product_page_url', 'universal_product_code(upc)', 'title', 'price_including_tax', 'price_excluding_tax', 'number_available', 'product_description', 'category', 'review_rating', 'image_url'])
+    
+def chooser(choice, funArgChoice, folderChoice, csvChoice, imageChoice):
+    myCsvWriter(folderChoice, csvChoice)
     argList = list()
     argList.append(choice)
     for i in argList:
         if (i == "book"):
-            oneBook(funChoice, folderChoice, csvChoice)
+            oneBook(funArgChoice, folderChoice, csvChoice, imageChoice)
         elif (i == "category"):
-            oneCategory(funChoice, folderChoice, csvChoice)
+            oneCategory(funArgChoice, folderChoice, csvChoice, imageChoice)
         elif (i == "all"):
-            allCategories(funChoice, folderChoice, csvChoice)
+            allCategories(funArgChoice, folderChoice, csvChoice, imageChoice)
         else:
             print("choices available are: book, category or all")
 
-def oneBook(url, destin_dir_book, destin_csv_book):
+def oneBook(funArgChoice, folderChoice, csvChoice, imageChoice):
+    dataListOneBook = list()
     try:
-        response_url = requests.get(url) 
+        response_url = requests.get(funArgChoice) 
         if response_url.ok:
-            nameOfBook = re.split('_[0-9].+$', url[37:].capitalize())[0].replace(' ', '_').replace('-', '_')
+            nameOfBook = re.split('_[0-9].+$', funArgChoice[37:].capitalize())[0].replace(' ', '_').replace('-', '_')
             soup = BeautifulSoup(response_url.text, 'lxml')
             upc = soup.find('td').text
             title = soup.find('h1').text.replace(' ','_')
@@ -70,43 +87,33 @@ def oneBook(url, destin_dir_book, destin_csv_book):
                 if review_ratings.find(rating) != -1:
                     review_rating = raitings[rating]
             image_url = "" + soup.find("img")['src'][5:]
-            while not os.path.isdir(destin_dir_book):
-                try:
-                    os.makedirs(destin_dir_book)
-                except:
-                    print("there was a problem with the path ", destin_dir_book)
-                    break
-            with open(destin_dir_book + '/' + destin_csv_book + '.csv' , 'a', newline='') as f:
+            with open(folderChoice + '/' + csvChoice + '.csv' , 'a', newline='') as f:
                 csv_writer = csv.writer(f)
-                csv_writer.writerow(['product_page_url', 'universal_product_code(upc)', 'title', 'price_including_tax', 'price_excluding_tax', 'number_available', 'product_description', 'category', 'review_rating', 'image_url'])
-                csv_writer.writerow([url, upc, title, price_including_tax, price_excluding_tax, number_available, product_description, category, review_rating, image_url ])        
+                csv_writer.writerow([funArgChoice, upc, title, price_including_tax, price_excluding_tax, number_available, product_description, category, review_rating, image_url ])        
             response_image = requests.get(urlbase + image_url)
-            if response_image.ok:
-                with open(destin_dir_book + '/Cover_of_' + title.capitalize() + ".jpg", "wb") as f:
+            response_image = requests.get(urlbase + image_url)
+            if response_image.ok and imageChoice == "yes":
+                with open(folderChoice + '/Cover_of_' + title.capitalize() + ".jpg", "wb") as f:
                     f.write(response_image.content)
     except requests.exceptions.MissingSchema:
         print('it is not a valid url')
             
-def oneCategory(cat, destin_dir_category, destin_csv_category):
-    if cat not in categories_list:
+def oneCategory(funArgChoice, folderChoice, csvChoice, imageChoice):
+    if funArgChoice not in categories_list:
         print("it is not a listed category. Type the exact name of the category, all characters must be lowercase. Replace spaces by dashes '-' ")
         exit()
     else:
         for i in categories_list_full:
-            if i.split('_')[0] == cat:
+            if i.split('_')[0] == funArgChoice:
                 caturl = i
                 break
-    out_csv = destin_dir_category + '/' + destin_csv_category +'.csv'
-    while not os.path.isdir(destin_dir_category):
+    out_csv = folderChoice + '/' + csvChoice +'.csv'
+    while not os.path.isdir(folderChoice):
         try:
-            os.makedirs(destin_dir_category)
+            os.makedirs(folderChoice)
         except:
-            print("there was a problem with the path ", destin_dir_category)
+            print("there was a problem with the path ", folderChoice)
             break
-    with open(out_csv, 'w', newline='') as ccsv:
-        csv_writer = csv.writer(ccsv)
-        csv_writer.writerow(['product_page_url', 'universal_product_code(upc)', 'title', 'price_including_tax', 'price_excluding_tax', 'number_available', 'product_description', 'category', 'review_rating', 'image_url'])
-
     url_list = list() 
     url_list.append(urlbasecat + caturl + '/index.html')
     url_cat_page_base = urlbasecat + caturl + '/page-'
@@ -116,7 +123,6 @@ def oneCategory(cat, destin_dir_category, destin_csv_category):
             url_list.append(url_page_to_parse)
         else:
             break
- 
     product_url_list = list() 
     for i in url_list:
         response = requests.get(i)
@@ -128,20 +134,14 @@ def oneCategory(cat, destin_dir_category, destin_csv_category):
                 if (str(i).count('../')== 3):
                     product_url = urlbase+ 'catalogue/' + i['href'][9:]
                     product_url_list.append(product_url)
+    currentDone = 0
     for i in product_url_list:
-        print(i)
+        counterTotal = len(product_url_list)
+        oneBook(i, folderChoice, csvChoice, imageChoice)
+        currentDone += 1
+        print("parsing page ", currentDone, "on ", counterTotal)
 
 
-        #             print(product_url)
-        #             print('saving image found @: ', product_url)
-        #             saveImageUrl(product_url, destin_dir + '/' + category + '/' + 'Cover Images')
-        #             a_list.append(product_url)
-        #             out_csv = category + '/' + 'dataBooksPerCategory_' + category + '.csv'
-        #             find_datas(product_url, out_csv, destin_dir)
-        # else:
-        #     print('unable to get the url :', a_url, response)
-
-        
 
 
 
@@ -155,4 +155,4 @@ def oneCategory(cat, destin_dir_category, destin_csv_category):
 
 
 if __name__ == '__main__':
-    chooser(sys.argv[1], sys.argv[2], sys.argv[3], sys.argv[4])
+    chooser(sys.argv[1], sys.argv[2], sys.argv[3], sys.argv[4], sys.argv[5])
