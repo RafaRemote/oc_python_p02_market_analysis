@@ -77,7 +77,7 @@ def oneBook(funArgChoice, folderChoice, csvChoice, imageChoice):
             nameOfBook = re.split('_[0-9].+$', funArgChoice[37:].capitalize())[0].replace(' ', '_').replace('-', '_')
             soup = BeautifulSoup(response_url.text, 'lxml')
             upc = soup.find('td').text
-            title = soup.find('h1').text.replace(' ','_')
+            title = soup.find('h1').text.replace(' ','_').replace('/','-')
             price_including_tax = soup.findAll('td')[3].text[1:] 
             price_excluding_tax = soup.findAll('td')[2].text[1:] 
             number_available = str(re.findall('[0-9]+', soup.findAll('td')[5].text))[2:-2] 
