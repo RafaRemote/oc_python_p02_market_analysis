@@ -31,28 +31,29 @@ pip install -r requirements.txt
 Now you can use the commands below in the terminal
 
 ## commands 
-
+```
 python scrape.py [arg1] [arg2] [arg3] [arg4] [arg5]
+```
 
 arg1: choice for the functions:
 
-book: to scrape data from one book
-category: to scrape category from one category
-everything : to scrape everything
+- __book__: to scrape data from one book
+- __category__: to scrape category from one category
+- __everything__ : to scrape everything
 
-arg2: depends on the function you have chosen
-- book: type the url of the product page of the book you want to scrape
-- category: type the name of the category you have chosen. (all characters lowercase, no spaces but only dashes)
-- everything : type 'evrything' to scrape all the datas 
+arg2: depends on the function you have chosen:
+- __book__: type the __url__ of the product page of the book you want to scrape,
+- __category__: type the __name of the category__ you have chosen. (all characters lowercase, no spaces but only dashes),
+- __everything__ : type 'evrything' to scrape all the datas .
 
-arg3: destination folder. If the folder you're asking for is not existing, it will be created
+arg3: destination folder. If the folder you're asking for is not existing, it will be created.
 
 arg4: destination csv file. If the csv does not exist it will be created.
 
 arg5: choice for the image downloading and saving. Images will be saved in the folder you specified in arg3.
 
-- yes to download the images,
-- no to not download the images.
+- __yes__: to download the images,
+- __no__: to not download the images.
 
 ### 1. book
 ```
@@ -60,8 +61,8 @@ python scrape.py book [arg2] [arg3] [arg4] [arg5]
 ```
 
 #### Usage cases
-- [x] scrape informations for one book
-- [x] scrape book image of each product page visited
+- [x] scrape informations for one book,
+- [x] scrape book image of each product page visited.
 
 will extract the following datas:
 
@@ -89,13 +90,19 @@ python scrape.py book https://books.toscrape.com/catalogue/scott-pilgrims-precio
 ### 2. One category of book
 #### Usage cases
 - [x] scrape informations for one category of book
-- [x] scrape book informations for one category
+- [x] scrape book image of each product page visited
 
-will all the data (the 10 data listed above) of each book for one category, 
+will wrtie all the data (the 10 data listed above) of each book for one category, 
 will write a csv file with the name specified in arg4 and store it in the folder specified in arg3 
 if arg5 == yes: will store the image of the product pages visited in the folder specified in arg3.
 
-### 3. All categories of book scraping
+#### commands example
+
+```
+python scrape.py category mystery mysteryfolder mysterycsv yes
+```
+
+### 3. All categories
 #### Usage cases
 - [x] scrape informations for all categories of books
 - [x] scrape book image of each product page visited
@@ -104,3 +111,9 @@ will extract all the informations for each book of each categories.
 will write one csv file for each category, 
 will store all these files in the folder specified in arg3
 if arg5 == yes: will store the image of the product pages visited in the folder specified in arg3
+
+#### commands example
+
+```
+python scrape.py everything everything alldatas none yes
+```
