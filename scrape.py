@@ -6,15 +6,18 @@ import csv
 import sys
 import itertools
 
+# to be able to use variables from the command line
 chooser = (sys.argv[1])
 funArgChoice = (sys.argv[2])
 folderChoice = (sys.argv[3])
 csvChoice = (sys.argv[4])
 imageChoice = (sys.argv[5])
 
+
 urlbase = "https://books.toscrape.com/"
 urlbasecat = urlbase + "catalogue/category/books/"
 
+# creating the list of categories
 category_list = list()
 response_homepage = requests.get(urlbase)
 if response_homepage.ok:
@@ -38,18 +41,7 @@ for j in categories_list:
     categories_list_full.append(j + '_' + str(i))
     i += 1
 
-categoriesIndex = list()
-response = requests.get(urlbase)
-if response.ok:
-    soup = BeautifulSoup(response.text, 'lxml')
-    a_tags = soup.findAll('a')
-    for i in a_tags:
-        if (re.search('.*books', str(i))):
-            element_to_append = (re.split('">.*', str(i))[0])
-            element_to_append_clean = (re.split('^<a href="', element_to_append)[1])
-            url_to_append = urlbase + element_to_append_clean
-            categoriesIndex.append(url_to_append)
-
+# to be able to choose the function we want to use within the command line.
 def chooser(choice, funArgChoice, folderChoice, csvChoice, imageChoice):
     myCsvWriter(folderChoice, csvChoice)
     argList = list()
@@ -64,6 +56,7 @@ def chooser(choice, funArgChoice, folderChoice, csvChoice, imageChoice):
         else:
             print("choices available are: book, category or all")
 
+# is writing a csv file within a folder of our choice, and a csv file of our choice
 def myCsvWriter(folderChoice, csvChoice):
     while not os.path.isdir(folderChoice):
                 try:
@@ -75,7 +68,7 @@ def myCsvWriter(folderChoice, csvChoice):
                 csv_writer = csv.writer(pathCsv)
                 csv_writer.writerow(['product_page_url', 'universal_product_code(upc)', 'title', 'price_including_tax', 'price_excluding_tax', 'number_available', 'product_description', 'category', 'review_rating', 'image_url'])
     
-
+# function to scrape the data from one book.
 def oneBook(funArgChoice, folderChoice, csvChoice, imageChoice):
     dataListOneBook = list()
     try:
@@ -101,13 +94,13 @@ def oneBook(funArgChoice, folderChoice, csvChoice, imageChoice):
                 csv_writer = csv.writer(f)
                 csv_writer.writerow([funArgChoice, upc, title, price_including_tax, price_excluding_tax, number_available, product_description, category, review_rating, image_url ])        
             response_image = requests.get(urlbase + image_url)
-            response_image = requests.get(urlbase + image_url)
             if response_image.ok and imageChoice == "yes":
                 with open(folderChoice + '/Cover_of_' + title.capitalize() + ".jpg", "wb") as f:
                     f.write(response_image.content)
     except requests.exceptions.MissingSchema:
         print('it is not a valid url')
-            
+
+# to scrape the data from one category
 def oneCategory(funArgChoice, folderChoice, csvChoice, imageChoice):
     if funArgChoice not in categories_list:
         print("it is not a listed category. Type the exact name of the category, all characters must be lowercase. Replace spaces by dashes '-' ")
@@ -151,19 +144,16 @@ def oneCategory(funArgChoice, folderChoice, csvChoice, imageChoice):
         currentDone += 1
         print("parsing page ", currentDone, "on ", counterTotal)
 
-
+# to scrape the data from all categories
 def allCategories(funArgChoice, folderChoice, csvChoice, imageChoice):
     counter = len(categories_list)
     print("----there is ", counter ," categories to parse.----")
+    print("----please wait----")
     for i in categories_list:
         oneCategory(i, folderChoice, csvChoice, imageChoice)
         counter -= 1
         print("----there is ", counter, " categories left to parse !----")
 
-    
-
-
-
-
+# to be able to use the functions within the command line
 if __name__ == '__main__':
     chooser(sys.argv[1], sys.argv[2], sys.argv[3], sys.argv[4], sys.argv[5])
