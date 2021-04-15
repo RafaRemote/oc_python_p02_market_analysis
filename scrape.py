@@ -15,9 +15,7 @@ imageChoice = (sys.argv[5])
 urlbase = "https://books.toscrape.com/"
 urlbasecat = urlbase + "catalogue/category/books/"
 
-
-
-category_list = []
+category_list = list()
 response_homepage = requests.get(urlbase)
 if response_homepage.ok:
     soup = BeautifulSoup(response_homepage.text, 'lxml')
@@ -40,6 +38,31 @@ for j in categories_list:
     categories_list_full.append(j + '_' + str(i))
     i += 1
 
+categoriesIndex = list()
+response = requests.get(urlbase)
+if response.ok:
+    soup = BeautifulSoup(response.text, 'lxml')
+    a_tags = soup.findAll('a')
+    for i in a_tags:
+        if (re.search('.*books', str(i))):
+            element_to_append = (re.split('">.*', str(i))[0])
+            element_to_append_clean = (re.split('^<a href="', element_to_append)[1])
+            url_to_append = urlbase + element_to_append_clean
+            categoriesIndex.append(url_to_append)
+
+def chooser(choice, funArgChoice, folderChoice, csvChoice, imageChoice):
+    myCsvWriter(folderChoice, csvChoice)
+    argList = list()
+    argList.append(choice)
+    for i in argList:
+        if (i == "book"):
+            oneBook(funArgChoice, folderChoice, csvChoice, imageChoice)
+        elif (i == "category"):
+            oneCategory(funArgChoice, folderChoice, csvChoice, imageChoice)
+        elif (i == "everything"):
+            allCategories(funArgChoice, folderChoice, csvChoice, imageChoice)
+        else:
+            print("choices available are: book, category or all")
 
 def myCsvWriter(folderChoice, csvChoice):
     while not os.path.isdir(folderChoice):
@@ -52,19 +75,6 @@ def myCsvWriter(folderChoice, csvChoice):
                 csv_writer = csv.writer(pathCsv)
                 csv_writer.writerow(['product_page_url', 'universal_product_code(upc)', 'title', 'price_including_tax', 'price_excluding_tax', 'number_available', 'product_description', 'category', 'review_rating', 'image_url'])
     
-def chooser(choice, funArgChoice, folderChoice, csvChoice, imageChoice):
-    myCsvWriter(folderChoice, csvChoice)
-    argList = list()
-    argList.append(choice)
-    for i in argList:
-        if (i == "book"):
-            oneBook(funArgChoice, folderChoice, csvChoice, imageChoice)
-        elif (i == "category"):
-            oneCategory(funArgChoice, folderChoice, csvChoice, imageChoice)
-        elif (i == "all"):
-            allCategories(funArgChoice, folderChoice, csvChoice, imageChoice)
-        else:
-            print("choices available are: book, category or all")
 
 def oneBook(funArgChoice, folderChoice, csvChoice, imageChoice):
     dataListOneBook = list()
@@ -142,14 +152,15 @@ def oneCategory(funArgChoice, folderChoice, csvChoice, imageChoice):
         print("parsing page ", currentDone, "on ", counterTotal)
 
 
+def allCategories(funArgChoice, folderChoice, csvChoice, imageChoice):
+    counter = len(categories_list)
+    print("----there is ", counter ," categories to parse.----")
+    for i in categories_list:
+        oneCategory(i, folderChoice, csvChoice, imageChoice)
+        counter -= 1
+        print("----there is ", counter, " categories left to parse !----")
 
-
-
-
-
-
-# def allCategories(every):
-#     print(every)
+    
 
 
 
