@@ -1,8 +1,6 @@
 # Project: Price Scraping
 
-Here are the scripts you asked for.  
-The Target Website use for these processes is https://books.toscrape.com/
-  
+The Target Website used for this script is https://books.toscrape.com/
 #### Usage cases
 
 - [x] scrape informations for __ONE BOOK__
@@ -11,6 +9,12 @@ The Target Website use for these processes is https://books.toscrape.com/
 - [x] scrape __BOOK IMAGE OF EACH PRODUCT PAGE VISITED__
   
 ## Installation
+
+You need to have Python installed on your machine.
+This script has been developed using python 3.9.2.
+Check your version of Python, if needed, upgrade your version. 
+
+Open a terminal in the folder of your choice, then type:
 
 ```
 git clone https://github.com/RafaRemote/pythonWebScraper.git
@@ -42,13 +46,13 @@ arg1: choice for the functions:
 - __everything__ : to scrape everything
 
 arg2: depends on the function you have chosen:
-- __book__: type the __url__ of the product page of the book you want to scrape,
-- __category__: type the __name of the category__ you have chosen. (all characters lowercase, no spaces but only dashes),
-- __everything__ : type 'evrything' to scrape all the datas .
+- if __book__: type the __url__ of the product page of the book you want to scrape,
+- else if __category__: type the __name of the category__ you have chosen. (all characters must be lowercased, no spaces but only dashes),
+- else __everything__ : type 'everything' to scrape all the datas .
 
-arg3: destination folder. If the folder you're asking for is not existing, it will be created.
+arg3: destination folder. Type the name one you want for the folder which will store the data you want to scrape
 
-arg4: destination csv file. If the csv does not exist it will be created.
+arg4: destination csv file. Type the name you want, without the extension '.csv', for the csv file to be created.
 
 arg5: choice for the image downloading and saving. Images will be saved in the folder you specified in arg3.
 
@@ -56,10 +60,6 @@ arg5: choice for the image downloading and saving. Images will be saved in the f
 - __no__: to not download the images.
 
 ### 1. book
-```
-python scrape.py book [arg2] [arg3] [arg4] [arg5]
-```
-
 #### Usage cases
 - [x] scrape informations for one book,
 - [x] scrape book image of each product page visited.
@@ -84,6 +84,10 @@ if arg5 == yes: will store the image of the product in the folder specified in a
 #### commands example
 
 ```
+python scrape.py book [arg2] [arg3] [arg4] [arg5]
+```
+
+```
 python scrape.py book https://books.toscrape.com/catalogue/scott-pilgrims-precious-little-life-scott-pilgrim-1_987/index.html scott dataScott yes
 ```
 
@@ -99,6 +103,10 @@ if arg5 == yes: will store the image of the product pages visited in the folder 
 #### commands example
 
 ```
+python scrape.py category [arg2] [arg3] [arg4] [arg5]
+```
+
+```
 python scrape.py category mystery mysteryfolder mysterycsv yes
 ```
 
@@ -107,13 +115,17 @@ python scrape.py category mystery mysteryfolder mysterycsv yes
 - [x] scrape informations for all categories of books
 - [x] scrape book image of each product page visited
 
-will extract all the informations for each book of each categories.  
-will write one csv file for each category, 
-will store all these files in the folder specified in arg3
+will extract all the informations for each book of each categories in a csv file with the name you specified in arg4
+will store all this csv file in the folder specified in arg3
 if arg5 == yes: will store the image of the product pages visited in the folder specified in arg3
 
 #### commands example
 
 ```
-python scrape.py everything everything alldatas none yes
+python scrape.py category [arg2] [arg3] [arg4] [arg5]
 ```
+
+```
+python scrape.py everything everything allDataFolder allData yes
+```
+end.
