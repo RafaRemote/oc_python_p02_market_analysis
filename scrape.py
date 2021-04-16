@@ -21,6 +21,7 @@ urlbase = "https://books.toscrape.com/"
 urlbasecat = urlbase + "catalogue/category/books/"
 
 # creating the list of categories
+# category list will be a list with lists inside, example of list inside: ['Short', 'Stories'] 
 category_list = list()
 response_homepage = requests.get(urlbase)
 if response_homepage.ok:
@@ -30,7 +31,8 @@ if response_homepage.ok:
         if (str(i).count("books") > 0):
             category_list.append(str(i).split()[2:-1])
 del category_list[0]
-categories_list = []
+# creating a list of all the name of the categories example of one category in the list aftet this below code: 'short-stories' instead of  ['Short', 'Stories'] previously
+categories_list = list()
 for i in category_list:
     if (len(i) == 1):
         categories_list.append(i[0].lower())
@@ -38,7 +40,8 @@ for i in category_list:
         categories_list.append((i[0] + '-' + i[1]).lower())
     else:
         categories_list.append((i[0] + '-' + i [1] + '-' + i[2]).lower())
-categories_list_full = []
+# modifing the elements of the list to get the correct syntax and to recreate the correct urls, exampe of one category: short-stories_45
+categories_list_full = list()
 i = 2
 for j in categories_list:
     categories_list_full.append(j + '_' + str(i))
@@ -54,7 +57,7 @@ def chooser(choice, funArgChoice, folderChoice, csvChoice, imageChoice):
         elif (i == "category"):
             oneCategory(funArgChoice, folderChoice, csvChoice, imageChoice)
         elif (i == "all"):
-            allCategories(choice, folderChoice, imageChoice)
+            allCategories(folderChoice, imageChoice)
         else:
             print("choices available are: book, category or all")
 
@@ -101,16 +104,18 @@ def oneBook(chooser, funArgChoice, folderChoice, csvChoice, imageChoice, path):
                 with open(path, 'a', newline='') as f:
                     csv_writer = csv.writer(f)
                     csv_writer.writerow([funArgChoice, upc, title, price_including_tax, price_excluding_tax, number_available, product_description, category, review_rating, image_url ]) 
-            imageDict = dict()
-            imageRef = urlbase + image_url
-            imageDict[title] = imageRef
+            # creating a dict with the title of the books and their url to send to imageSaver() to save them
             if chooser == 'book' and imageChoice == 'yes':
+                imageDict = dict()
+                imageRef = urlbase + image_url
+                imageDict[title] = imageRef
                 imageSaver(folderChoice, imageDict)
     except requests.exceptions.MissingSchema:
         print('it is not a valid url ', funArgChoice)
 
 # to scrape the data from one category
 def oneCategory(funArgChoice, folderChoice, csvChoice, imageChoice):
+    print('----please wait----')
     if funArgChoice not in categories_list:
         print("it is not a listed category. Type the exact name of the category, all characters must be lowercase. Replace spaces by dashes '-' ")
         exit()
@@ -140,7 +145,7 @@ def oneCategory(funArgChoice, folderChoice, csvChoice, imageChoice):
         else:
             break
 
-    # creating the whole list or product urls
+    # creating the whole list or product urls : example of url: https://books.toscrape.com/catalogue/the-bhagavad-gita_60/index.html
     for i in url_list:
         product_url_list = list() 
     for i in url_list:
@@ -153,7 +158,7 @@ def oneCategory(funArgChoice, folderChoice, csvChoice, imageChoice):
                 if (str(i).count('../')== 3):
                     product_url = urlbase+ 'catalogue/' + i['href'][9:]
                     product_url_list.append(product_url)
-        
+    
     # creating an information to show to the user in the console
     currentDone = 0
     for i in product_url_list:
@@ -163,7 +168,7 @@ def oneCategory(funArgChoice, folderChoice, csvChoice, imageChoice):
         currentDone += 1
         print("parsing page ", currentDone, "on ", counterTotal)
 
-    # creating a dictionnaire with name of the book and the url of their image. Will be send to function imageSaver()
+    # creating a dictionnaire with name of the book and the url of their image. Will be send to function imageSaver(), example of key/value pair inside the dict: {'The-bhagavad-gita': 'https://books.toscrape.com//media/cache/13/27/13270087ac5cba3e999166a64991187a.jpg'}
     if imageChoice == 'yes':
         imageDict = dict()
         for i in product_url_list:
@@ -175,9 +180,9 @@ def oneCategory(funArgChoice, folderChoice, csvChoice, imageChoice):
                 imageDict[name] = image_url
         # calling imageSaver
         imageSaver(folderChoice + '/' + funArgChoice, imageDict)
-
+        
 # to scrape the data from all categories
-def allCategories(choice, folderChoice, imageChoice):  
+def allCategories(folderChoice, imageChoice):  
     counter = len(categories_list)
     print("----there is ", counter, " categories to parse !----")
     for i in categories_list:        
