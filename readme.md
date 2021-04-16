@@ -43,16 +43,16 @@ arg1: choice for the functions:
 
 - __book__: to scrape data from one book
 - __category__: to scrape category from one category
-- __everything__ : to scrape everything
+- __all__ : to scrape everything
 
 arg2: depends on the function you have chosen:
 - if __book__: type the __url__ of the product page of the book you want to scrape,
 - else if __category__: type the __name of the category__ you have chosen. (all characters must be lowercased, no spaces but only dashes),
-- else __everything__ : type 'everything' to scrape all the datas .
+- else __all__ : type '.' 
 
 arg3: destination folder. Type the name one you want for the folder which will store the data you want to scrape
 
-arg4: destination csv file. Type the name you want, without the extension '.csv', for the csv file to be created.
+arg4: destination csv file. Type the name you want, without the extension '.csv', for the csv file to be created, if you want to scrape all the categories just type '.' as arg4.
 
 arg5: choice for the image downloading and saving. Images will be saved in the folder you specified in arg3.
 
@@ -81,7 +81,7 @@ will write a csv file with the name specified in arg4
 will store it in a folder with the name specified in arg3
 if arg5 == yes: will store the image of the product in the folder named 'cover-images', within the folder specified in arg3.
   
-#### commands example
+#### command example
 
 ```
 python scrape.py book [arg2] [arg3] [arg4] [arg5]
@@ -100,7 +100,7 @@ will write all the data (the 10 data listed above) of each book for one category
 will write a csv file with the name specified in arg4 and store it in the folder specified in arg3 
 if arg5 == yes: will store the image of the product pages visited in a folder named 'cover-images', within the folder specified in arg3.
 
-#### commands example
+#### command example
 
 ```
 python scrape.py category [arg2] [arg3] [arg4] [arg5]
@@ -125,7 +125,7 @@ if arg5 = yes:
 
 __Here arg2 and arg4 need to be dots: '.', check the code below.__
 
-#### commands example
+#### command example
 
 :exclamation: Use this command to scrape all the datas :exclamation:  
 you can still change the name of the destination folder 'allData' and change yes to no, to not download the images.
@@ -133,4 +133,3 @@ you can still change the name of the destination folder 'allData' and change yes
 ```
 python scrape.py all . allData . yes
 ```
-
