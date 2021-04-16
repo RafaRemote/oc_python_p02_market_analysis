@@ -128,6 +128,7 @@ __Here arg2 and arg4 need to be dots: '.', check the code below.__
 #### commands example
 
 :exclamation: Use this command to scrape all the datas :exclamation:
+you can still change the name of the destination folder 'allData' and change yes to no, to not download the images.
 
 ```
 python scrape.py all . allData . yes
