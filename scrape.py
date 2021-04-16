@@ -87,7 +87,7 @@ def oneBook(chooser, funArgChoice, folderChoice, csvChoice, imageChoice, path):
             for rating in ['One', 'Two', 'Three', 'Four', 'Five']:
                 if review_ratings.find(rating) != -1:
                     review_rating = raitings[rating]
-            image_url = "" + soup.find("img")['src'][5:]
+            image_url = urlbase + soup.find("img")['src'][5:]
             if choice == "book":
                 while not os.path.isdir(folderChoice + '/csv/'):
                     try:
