@@ -107,7 +107,7 @@ python scrape.py category [arg2] [arg3] [arg4] [arg5]
 ```
 
 ```
-python scrape.py category mystery dataOneCategory dataCat_mystery yes
+python scrape.py category religion dataOneCategory dataCat_religion yes
 ```
 
 ### 3. All categories
