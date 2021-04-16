@@ -49,6 +49,14 @@ for j in categories_list:
     categories_list_full.append(j + '_' + str(i))
     i += 1
 
+# function to check if a path exist or not
+def checkdir(path_to_check):
+    while not os.path.isdir(path_to_check):
+            try:
+                os.makedirs(path_to_check)
+            except OSError:
+                print("there was a problem with the path ", path_to_check)
+                break
 
 # to be able to choose the function we want to use within the command line.
 def chooser(choice, fun_arg_choice, folder_choice, csv_choice, image_choice):
@@ -67,12 +75,7 @@ def chooser(choice, fun_arg_choice, folder_choice, csv_choice, image_choice):
 
 # function to scrape the data from one book.
 def onebook(chooser, fun_arg_choice, folder_choice, csv_choice, image_choice, path):
-    while not os.path.isdir(folder_choice):
-        try:
-            os.makedirs(folder_choice)
-        except OSError:
-            print("there was a problem with the path ", folder_choice)
-            break
+    checkdir(folder_choice)
     try:
         response_url = requests.get(fun_arg_choice)
         if response_url.ok:
@@ -92,12 +95,7 @@ def onebook(chooser, fun_arg_choice, folder_choice, csv_choice, image_choice, pa
                     review_rating = raitings[rating]
             image_url = "" + soup.find("img")['src'][5:]
             if choice == "book":
-                while not os.path.isdir(folder_choice + '/csv/'):
-                    try:
-                        os.makedirs(folder_choice + '/csv/')
-                    except OSError:
-                        print("there was a problem with the path ", folder_choice + '/csv')
-                    break
+                checkdir(folder_choice + '/csv/')
                 path = folder_choice + '/csv/' + csv_choice + '.csv'
                 with open(path, 'a', newline='') as f:
                     csv_writer = csv.writer(f)
@@ -114,7 +112,7 @@ def onebook(chooser, fun_arg_choice, folder_choice, csv_choice, image_choice, pa
                     csv_writer.writerow(
                         [fun_arg_choice, upc, title, price_including_tax, price_excluding_tax, number_available,
                          product_description, category, review_rating, urlbase + image_url])
-                    # creating a dict with the title of the books and their url to send to imageSaver() to save them
+            # creating a dict with the title of the books and their url to send to imageSaver() to save them
             if chooser == 'book' and image_choice == 'yes':
                 image_dict = dict()
                 image_ref = urlbase + image_url
@@ -135,12 +133,7 @@ def onecategory(fun_arg_choice, folder_choice, csv_choice, image_choice):
             "Replace spaces by dashes '-' ")
         exit()
     else:
-        while not os.path.isdir(folder_choice + '/' + fun_arg_choice + '/csv/'):
-            try:
-                os.makedirs(folder_choice + '/' + fun_arg_choice + '/csv/')
-            except OSError:
-                print("there was a problem with the path ", folder_choice)
-                break
+        checkdir(folder_choice + '/' + fun_arg_choice + '/csv/')
         with open(folder_choice + '/' + fun_arg_choice + '/csv/' + csv_choice + '.csv', 'w', newline='') as pathCsv:
             csv_writer = csv.writer(pathCsv)
             csv_writer.writerow(['product_page_url', 'universal_product_code(upc)', 'title', 'price_including_tax',
@@ -213,12 +206,7 @@ def allcategories(folder_choice, image_choice):
 # to save the images
 def imagesaver(path_image_folder, image_dict):
     print('----retrieving images, please wait----')
-    while not os.path.isdir(path_image_folder + "/cover-images"):
-        try:
-            os.makedirs(path_image_folder + "/cover-images")
-        except OSError:
-            print("there was a problem with the path ", path_image_folder + "/cover-image")
-            break
+    checkdir(path_image_folder + "/cover-images")
     for i, j in image_dict.items():
         response_image = requests.get(j)
         if response_image.ok and image_choice == "yes":
