@@ -20,7 +20,7 @@ Open a terminal in the folder of your choice, then type:
 git clone https://github.com/RafaRemote/pythonWebScraper.git
 ```
 ```
-python -v venv env
+python -m venv env
 ```
 ```
 source env/bin/activate
