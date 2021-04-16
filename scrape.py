@@ -87,7 +87,7 @@ def oneBook(chooser, funArgChoice, folderChoice, csvChoice, imageChoice, path):
             for rating in ['One', 'Two', 'Three', 'Four', 'Five']:
                 if review_ratings.find(rating) != -1:
                     review_rating = raitings[rating]
-            image_url = urlbase + soup.find("img")['src'][5:]
+            image_url = "" + soup.find("img")['src'][5:]
             if choice == "book":
                 while not os.path.isdir(folderChoice + '/csv/'):
                     try:
@@ -99,11 +99,11 @@ def oneBook(chooser, funArgChoice, folderChoice, csvChoice, imageChoice, path):
                 with open(path, 'a', newline='') as f:
                     csv_writer = csv.writer(f)
                     csv_writer.writerow(['product_page_url', 'universal_product_code(upc)', 'title', 'price_including_tax', 'price_excluding_tax', 'number_available', 'product_description', 'category', 'review_rating', 'image_url'])
-                    csv_writer.writerow([funArgChoice, upc, title, price_including_tax, price_excluding_tax, number_available, product_description, category, review_rating, image_url ]) 
+                    csv_writer.writerow([funArgChoice, upc, title, price_including_tax, price_excluding_tax, number_available, product_description, category, review_rating, urlbase + image_url ]) 
             else :
                 with open(path, 'a', newline='') as f:
                     csv_writer = csv.writer(f)
-                    csv_writer.writerow([funArgChoice, upc, title, price_including_tax, price_excluding_tax, number_available, product_description, category, review_rating, image_url ]) 
+                    csv_writer.writerow([funArgChoice, upc, title, price_including_tax, price_excluding_tax, number_available, product_description, category, review_rating, urlbase + image_url ]) 
             # creating a dict with the title of the books and their url to send to imageSaver() to save them
             if chooser == 'book' and imageChoice == 'yes':
                 imageDict = dict()
