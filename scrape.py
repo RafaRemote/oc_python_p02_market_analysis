@@ -1,6 +1,6 @@
+from bs4 import BeautifulSoup
 import requests
 import re
-from bs4 import BeautifulSoup
 import os.path
 import csv
 import sys
@@ -158,7 +158,7 @@ def oneCategory(funArgChoice, folderChoice, csvChoice, imageChoice):
                 if (str(i).count('../')== 3):
                     product_url = urlbase+ 'catalogue/' + i['href'][9:]
                     product_url_list.append(product_url)
-    
+
     # creating an information to show to the user in the console
     currentDone = 0
     for i in product_url_list:
@@ -167,7 +167,6 @@ def oneCategory(funArgChoice, folderChoice, csvChoice, imageChoice):
         oneBook('category', i, folderChoice, funArgChoice + '/csv/' +csvChoice, imageChoice, path)
         currentDone += 1
         print("parsing page ", currentDone, "on ", counterTotal)
-
     # creating a dictionnaire with name of the book and the url of their image. Will be send to function imageSaver(), example of key/value pair inside the dict: {'The-bhagavad-gita': 'https://books.toscrape.com//media/cache/13/27/13270087ac5cba3e999166a64991187a.jpg'}
     if imageChoice == 'yes':
         imageDict = dict()
