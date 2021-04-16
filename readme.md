@@ -79,7 +79,7 @@ will extract the following datas:
 
 will write a csv file with the name specified in arg4
 will store it in a folder with the name specified in arg3
-if arg5 == yes: will store the image of the product in the folder specified in arg3
+if arg5 == yes: will store the image of the product in the folder named 'cover-images', within the folder specified in arg3.
   
 #### commands example
 
@@ -88,7 +88,7 @@ python scrape.py book [arg2] [arg3] [arg4] [arg5]
 ```
 
 ```
-python scrape.py book https://books.toscrape.com/catalogue/scott-pilgrims-precious-little-life-scott-pilgrim-1_987/index.html scott dataScott yes
+python scrape.py book https://books.toscrape.com/catalogue/scott-pilgrims-precious-little-life-scott-pilgrim-1_987/index.html dataOneBook dataBook_scott yes
 ```
 
 ### 2. One category of book
@@ -96,9 +96,9 @@ python scrape.py book https://books.toscrape.com/catalogue/scott-pilgrims-precio
 - [x] scrape informations for one category of book
 - [x] scrape book image of each product page visited
 
-will wrtie all the data (the 10 data listed above) of each book for one category, 
+will write all the data (the 10 data listed above) of each book for one category, 
 will write a csv file with the name specified in arg4 and store it in the folder specified in arg3 
-if arg5 == yes: will store the image of the product pages visited in the folder specified in arg3.
+if arg5 == yes: will store the image of the product pages visited in a folder named 'cover-images', within the folder specified in arg3.
 
 #### commands example
 
@@ -107,7 +107,7 @@ python scrape.py category [arg2] [arg3] [arg4] [arg5]
 ```
 
 ```
-python scrape.py category mystery mysteryfolder mysterycsv yes
+python scrape.py category mystery dataOneCategory dataCat_mystery yes
 ```
 
 ### 3. All categories
@@ -115,17 +115,21 @@ python scrape.py category mystery mysteryfolder mysterycsv yes
 - [x] scrape informations for all categories of books
 - [x] scrape book image of each product page visited
 
-will extract all the informations for each book of each categories in a csv file with the name you specified in arg4
-will store all this csv file in the folder specified in arg3
-if arg5 == yes: will store the image of the product pages visited in the folder specified in arg3
+will extract all the informations for each book of each categories.
+will store all the files in a folder with the name specified in arg3.
+the desination folder will contain one folder for each category, with the name of the category. 
+if arg5 = yes:
+    the folders for each category will contain 2 fodlers:
+    - cover-images
+    - csv
+
+__Here arg2 and arg4 need to be dots: '.', check the code below.__
 
 #### commands example
 
-```
-python scrape.py category [arg2] [arg3] [arg4] [arg5]
-```
+:exclamation: Use this command to scrape all the datas :exclamation:
 
 ```
-python scrape.py everything everything allDataFolder allData yes
+python scrape.py all . allData . yes
 ```
-end.
+

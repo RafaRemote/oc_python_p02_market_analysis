@@ -104,7 +104,7 @@ def oneBook(chooser, funArgChoice, folderChoice, csvChoice, imageChoice, path):
             imageDict = dict()
             imageRef = urlbase + image_url
             imageDict[title] = imageRef
-            if chooser == 'book':
+            if chooser == 'book' and imageChoice == 'yes':
                 imageSaver(folderChoice, imageDict)
     except requests.exceptions.MissingSchema:
         print('it is not a valid url ', funArgChoice)
@@ -164,20 +164,22 @@ def oneCategory(funArgChoice, folderChoice, csvChoice, imageChoice):
         print("parsing page ", currentDone, "on ", counterTotal)
 
     # creating a dictionnaire with name of the book and the url of their image. Will be send to function imageSaver()
-    imageDict = dict()
-    for i in product_url_list:
-        name = i.split('/')[-2].split('_')[-2].capitalize()
-        response = requests.get(i)
-        if response.ok:
-            soup = BeautifulSoup(response.text, 'lxml')
-            image_url = urlbase + soup.find("img")['src'][5:]
-            imageDict[name] = image_url
-    # calling imageSaver
-    imageSaver(folderChoice + '/' + funArgChoice, imageDict)
+    if imageChoice == 'yes':
+        imageDict = dict()
+        for i in product_url_list:
+            name = i.split('/')[-2].split('_')[-2].capitalize()
+            response = requests.get(i)
+            if response.ok:
+                soup = BeautifulSoup(response.text, 'lxml')
+                image_url = urlbase + soup.find("img")['src'][5:]
+                imageDict[name] = image_url
+        # calling imageSaver
+        imageSaver(folderChoice + '/' + funArgChoice, imageDict)
 
 # to scrape the data from all categories
 def allCategories(choice, folderChoice, imageChoice):  
     counter = len(categories_list)
+    print("----there is ", counter, " categories to parse !----")
     for i in categories_list:        
         oneCategory(i, folderChoice, i, imageChoice)
         counter -= 1
