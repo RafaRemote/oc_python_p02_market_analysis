@@ -1,14 +1,23 @@
 # Project: Price Scraping
 
+Menu
+
+1. Usage cases
+2. Installation
+3. One book scraping
+4. One category scraping
+5. All categories scraping
+
+
 The Target Website used for this script is https://books.toscrape.com/
-#### Usage cases
+## 1 - Usage cases
 
 - [x] scrape informations for __ONE BOOK__
 - [x] scrape informations for __ONE CATEGORY OF BOOK__
 - [x] scrape informations for __ALL CATEGORIES OF BOOKS__
 - [x] scrape __BOOK IMAGE OF EACH PRODUCT PAGE VISITED__
   
-## Installation
+## 2 - Installation
 
 You need to have Python installed on your machine.
 This script has been developed using python 3.9.2.
@@ -34,7 +43,7 @@ pip install -r requirements.txt
 
 Now you can use the commands below in the terminal
 
-## commands 
+### commands 
 ```
 python scrape.py [arg1] [arg2] [arg3] [arg4] [arg5]
 ```
@@ -59,8 +68,8 @@ arg5: choice for the image downloading and saving. Images will be saved in the f
 - __yes__: to download the images,
 - __no__: to not download the images.
 
-### 1. book
-#### Usage cases
+## 3. One book sraping
+### Usage cases
 - [x] scrape informations for one book,
 - [x] scrape book image of each product page visited.
 
@@ -81,7 +90,7 @@ will write a csv file with the name specified in arg4
 will store it in a folder with the name specified in arg3
 if arg5 == yes: will store the image of the product in the folder named 'cover-images', within the folder specified in arg3.
   
-#### command example
+### command example
 
 ```
 python scrape.py book [arg2] [arg3] [arg4] [arg5]
@@ -91,8 +100,8 @@ python scrape.py book [arg2] [arg3] [arg4] [arg5]
 python scrape.py book https://books.toscrape.com/catalogue/scott-pilgrims-precious-little-life-scott-pilgrim-1_987/index.html dataOneBook dataBook_scott yes
 ```
 
-### 2. One category of book
-#### Usage cases
+## 4. One category scraping
+### Usage cases
 - [x] scrape informations for one category of book
 - [x] scrape book image of each product page visited
 
@@ -100,7 +109,7 @@ will write all the data (the 10 data listed above) of each book for one category
 will write a csv file with the name specified in arg4 and store it in the folder specified in arg3 
 if arg5 == yes: will store the image of the product pages visited in a folder named 'cover-images', within the folder specified in arg3.
 
-#### command example
+### command example
 
 ```
 python scrape.py category [arg2] [arg3] [arg4] [arg5]
@@ -110,8 +119,8 @@ python scrape.py category [arg2] [arg3] [arg4] [arg5]
 python scrape.py category religion dataOneCategory dataCat_religion yes
 ```
 
-### 3. All categories
-#### Usage cases
+## 5. All categories
+### Usage cases
 - [x] scrape informations for all categories of books
 - [x] scrape book image of each product page visited
 
@@ -125,7 +134,11 @@ if arg5 = yes:
 
 __Here arg2 and arg4 need to be dots: '.', check the code below.__
 
-#### command example
+### command example
+
+```
+python scrape.py category [arg2] [arg3] [arg4] [arg5]
+```
 
 :exclamation: Use this command to scrape all the datas :exclamation:  
 you can still change the name of the destination folder 'allData' and change yes to no, to not download the images.
