@@ -6,15 +6,42 @@ import csv
 import sys
 import itertools
 
-# to be able to use variables from the command line
-choice = (sys.argv[1])
-fun_arg_choice = (sys.argv[2])
-folder_choice = (sys.argv[3])
-csv_choice = (sys.argv[4])
-image_choice = (sys.argv[5])
+# assigning values from the terminal to variables
+option = sys.argv[1]
+argument_for_option = sys.argv[2]
+choice_for_image = sys.argv[3]
 
 # will be used to manage the organisation of the folders for the storing of images
-path = ""
+path = ''
+
+
+# to be able to choose the function we want to use within the command line.
+def chooser(option, argument_for_option, choice_for_image):
+    global path
+    if option == 'book':
+        path = 'data/one_book_data/'
+        checkdir(path)
+        onebook(option, argument_for_option, choice_for_image, path)
+    elif option == 'category':
+        path = 'data/one_category_data/'
+        checkdir(path)
+        onecategory(option, argument_for_option, choice_for_image, path)
+    elif option == 'all':
+        path = 'data/all_categories_data'
+        allcategories(choice_for_image, path)
+    else:
+        print("choices available are: book, category or all")
+
+
+# function to check if a path exist or not
+def checkdir(path_to_check):
+    while not os.path.isdir(path_to_check):
+            try:
+                os.makedirs(path_to_check)
+            except OSError:
+                # print("line 55: there was a problem with the path ", path_to_check)
+                break
+
 
 # variable for the target website
 urlbase = "https://books.toscrape.com/"
@@ -23,9 +50,9 @@ urlbasecat = urlbase + "catalogue/category/books/"
 # creating the list of categories
 # category list will be a list with lists inside, example of list inside: ['Short', 'Stories'] 
 category_list = list()
-response_homepage = requests.get(urlbase)
-if response_homepage.ok:
-    soup = BeautifulSoup(response_homepage.text, 'lxml')
+response = requests.get(urlbase)
+if response.ok:
+    soup = BeautifulSoup(response.text, 'lxml')
     categories = soup.findAll("a")
     for i in categories:
         if str(i).count("books") > 0:
@@ -49,37 +76,13 @@ for j in categories_list:
     categories_list_full.append(j + '_' + str(i))
     i += 1
 
-# function to check if a path exist or not
-def checkdir(path_to_check):
-    while not os.path.isdir(path_to_check):
-            try:
-                os.makedirs(path_to_check)
-            except OSError:
-                print("there was a problem with the path ", path_to_check)
-                break
-
-# to be able to choose the function we want to use within the command line.
-def chooser(choice, fun_arg_choice, folder_choice, csv_choice, image_choice):
-    arg_list = list()
-    arg_list.append(choice)
-    for i in arg_list:
-        if i == "book":
-            onebook(choice, fun_arg_choice, folder_choice, csv_choice, image_choice, path)
-        elif i == "category":
-            onecategory(fun_arg_choice, folder_choice, csv_choice, image_choice)
-        elif i == "all":
-            allcategories(folder_choice, image_choice)
-        else:
-            print("choices available are: book, category or all")
-
 
 # function to scrape the data from one book.
-def onebook(chooser, fun_arg_choice, folder_choice, csv_choice, image_choice, path):
-    checkdir(folder_choice)
+def onebook(book_option, chosen_url, image_one_book_option, path_to_one_book_data):
     try:
-        response_url = requests.get(fun_arg_choice)
-        if response_url.ok:
-            soup = BeautifulSoup(response_url.text, 'lxml')
+        response = requests.get(chosen_url)
+        if response.ok:
+            soup = BeautifulSoup(response.text, 'lxml')
             upc = soup.find('td').text
             title = soup.find('h1').text.replace(' ', '_').replace('/', '-')
             price_including_tax = soup.findAll('td')[3].text[1:]
@@ -94,54 +97,58 @@ def onebook(chooser, fun_arg_choice, folder_choice, csv_choice, image_choice, pa
                 if review_ratings.find(rating) != -1:
                     review_rating = raitings[rating]
             image_url = "" + soup.find("img")['src'][5:]
-            if choice == "book":
-                checkdir(folder_choice + '/csv/')
-                path = folder_choice + '/csv/' + csv_choice + '.csv'
-                with open(path, 'a', newline='') as f:
+            if book_option == "book":
+                checkdir(path_to_one_book_data + '/csv/')
+                path_one_book_csv = path_to_one_book_data + '/csv/' + 'book_title_' + '.csv'
+                with open(path_one_book_csv, 'a', newline='') as f:
                     csv_writer = csv.writer(f)
                     csv_writer.writerow(
                         ['product_page_url', 'universal_product_code(upc)', 'title', 'price_including_tax',
                          'price_excluding_tax', 'number_available', 'product_description', 'category', 'review_rating',
                          'image_url'])
                     csv_writer.writerow(
-                        [fun_arg_choice, upc, title, price_including_tax, price_excluding_tax, number_available,
+                        [chosen_url, upc, title, price_including_tax, price_excluding_tax, number_available,
                          product_description, category, review_rating, urlbase + image_url])
             else:
-                with open(path, 'a', newline='') as f:
+                with open(path_one_category, 'a', newline='') as f:
                     csv_writer = csv.writer(f)
                     csv_writer.writerow(
                         [fun_arg_choice, upc, title, price_including_tax, price_excluding_tax, number_available,
                          product_description, category, review_rating, urlbase + image_url])
             # creating a dict with the title of the books and their url to send to imageSaver() to save them
-            if chooser == 'book' and image_choice == 'yes':
+            if book_option == 'book' and image_one_book_option == 'yes':
                 image_dict = dict()
                 image_ref = urlbase + image_url
                 image_dict[title] = image_ref
-                imagesaver(folder_choice, image_dict)
+                imagesaver(path_to_one_book_data, image_dict)
     except requests.exceptions.MissingSchema:
-        print('it is not a valid url ', fun_arg_choice)
+        print('it is not a valid url ', chosen_url)
 
 
 # to scrape the data from one category
-def onecategory(fun_arg_choice, folder_choice, csv_choice, image_choice):
+def onecategory(category_option, chosen_category, images_for_category_or_not, path_to_one_category_data):
     caturl = ""
     print('----please wait----')
-    if fun_arg_choice not in categories_list:
+    if chosen_category not in categories_list:
         print(
             "it is not a listed category. "
             "Type the exact name of the category, all characters must be lowercase. "
             "Replace spaces by dashes '-' ")
         exit()
     else:
-        checkdir(folder_choice + '/' + fun_arg_choice + '/csv/')
-        with open(folder_choice + '/' + fun_arg_choice + '/csv/' + csv_choice + '.csv', 'w', newline='') as pathCsv:
-            csv_writer = csv.writer(pathCsv)
+        path =  path_to_one_category_data + chosen_category + '/csv/' 
+        checkdir(path)
+        with open(path + chosen_category + '.csv', 'w', newline='') as pathcsv:
+            csv_writer = csv.writer(pathcsv)
             csv_writer.writerow(['product_page_url', 'universal_product_code(upc)', 'title', 'price_including_tax',
                                  'price_excluding_tax', 'number_available', 'product_description', 'category',
                                  'review_rating', 'image_url'])
+        exit()
         for i in categories_list_full:
-            if i.split('_')[0] == fun_arg_choice:
+            if i.split('_')[0] == chosen_category:
                 caturl = i
+                print(caturl)
+                exit()
                 break
 
     # creating the list of page to visit. Requesting pages to check their existence.
@@ -167,13 +174,14 @@ def onecategory(fun_arg_choice, folder_choice, csv_choice, image_choice):
                 if str(j).count('../') == 3:
                     product_url = urlbase + 'catalogue/' + j['href'][9:]
                     product_url_list.append(product_url)
-
+    
+    # calling the onebook()
     # creating an information to show to the user in the console
     current_done = 0
     for i in product_url_list:
         counter_total = len(product_url_list)
-        path = folder_choice + '/' + fun_arg_choice + '/csv/' + csv_choice + '.csv'
-        onebook('category', i, folder_choice, fun_arg_choice + '/csv/' + csv_choice, image_choice, path)
+        path = path_to_one_category_data + chosen_category + '/csv/' + chosen_category + '.csv'
+        onebook(category_option, i, image_for_category_or_not, path)
         current_done += 1
         print("parsing page ", current_done, "on ", counter_total)
     # creating a dict with name of the book and the url of their image.
@@ -190,15 +198,15 @@ def onecategory(fun_arg_choice, folder_choice, csv_choice, image_choice):
                 image_url = urlbase + soup.find("img")['src'][5:]
                 image_dict[name] = image_url
         # calling imageSaver
-        imagesaver(folder_choice + '/' + fun_arg_choice, image_dict)
+        imagesaver("data_one category" + '/' + chosen_category, image_dict)
 
 
-# to scrape the data from all categories
-def allcategories(folder_choice, image_choice):
+# to scrape the data from all categories: calling onecategory()
+def allcategories(all_images_or_not, path_to_all_data):
     counter = len(categories_list)
     print("----there is ", counter, " categories to parse !----")
     for i in categories_list:
-        onecategory(i, folder_choice, i, image_choice)
+        onecategory('category', i, all_images_or_not, path_to_all_data)
         counter -= 1
         print("----there is ", counter, " categories left to parse !----")
 
@@ -209,12 +217,13 @@ def imagesaver(path_image_folder, image_dict):
     checkdir(path_image_folder + "/cover-images")
     for i, j in image_dict.items():
         response_image = requests.get(j)
-        if response_image.ok and image_choice == "yes":
+        if response_image.ok:
             print('saving image cover of ', i, ' in ', path_image_folder)
             with open(path_image_folder + '/cover-images' + '/Cover_of_' + i + '.jpg', 'wb') as f:
                 f.write(response_image.content)
 
 
+
 # to be able to use the functions within the command line
 if __name__ == '__main__':
-    chooser(sys.argv[1], sys.argv[2], sys.argv[3], sys.argv[4], sys.argv[5])
+    chooser(sys.argv[1], sys.argv[2], sys.argv[3])
