@@ -98,6 +98,7 @@ def onebook(book_option, chosen_url, image_one_book_option, path_to_one_book_dat
                     review_rating = raitings[rating]
             image_url = "" + soup.find("img")['src'][5:]
             if book_option == "book":
+                path_to_one_book_data = path_to_one_book_data + title
                 checkdir(path_to_one_book_data + '/csv/')
                 path_one_book_csv = path_to_one_book_data + '/csv/' + 'book_title_' + title + '.csv'
                 with open(path_one_book_csv, 'a', newline='') as f:

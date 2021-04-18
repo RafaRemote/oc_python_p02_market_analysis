@@ -50,20 +50,20 @@ python scrape.py arg1 arg2 arg3
 
 arg1: choice for the functions:
 
-- __book__: to scrape data from one book
-- __category__: to scrape category from one category
-- __all__ : to scrape everything
+- __'book'__: to scrape data from one book
+- __'category'__: to scrape category from one category
+- __'all'__ : to scrape everything
 
 arg2: depends on the function you have chosen:
-- if __book__: type the __url__ of the product page of the book you want to scrape,
-- else if __category__: type the __name of the category__ you have chosen. (all characters must be lowercased, no spaces but only dashes),
-- else __all__ : type '.' 
+- if __arg1 == 'book'__: type the __url__ of the product page of the book you want to scrape,
+- else if __arg1 == 'category'__: type the __name of the category__ you have chosen. (all characters must be lowercased, no spaces but only dashes),
+- else if  __arg1 == 'all'__ : type '.' (one dot) 
 
 
 arg3: choice for the image downloading and saving.
 
-- __yes__: to download the images,
-- __no__: to not download the images.
+- __'yes'__: to download the images,
+- __'no'__: to not download the images.
 
 ## 3. One book scraping
 ### Usage cases
@@ -84,8 +84,7 @@ will extract the following datas:
 * image_url
 
 
-
-if arg3 == yes: will store the image of the product in the folder named 'cover-images'.
+if __arg3 == 'yes'__: will store the image of the visited pages.
   
 ### command example
 
@@ -97,6 +96,15 @@ python scrape.py book arg2 arg3
 python scrape.py book https://books.toscrape.com/catalogue/scott-pilgrims-precious-little-life-scott-pilgrim-1_987/index.html yes
 ```
 
+### struture of the data downloaded
+
+⬇️ data
+    ⬇️ one_book_data
+        ⬇️ [name of the book chosen]
+            -> csv
+            -> cover-image
+
+
 ## 4. One category scraping
 ### Usage cases
 - [x] scrape informations for one category of book
@@ -104,7 +112,7 @@ python scrape.py book https://books.toscrape.com/catalogue/scott-pilgrims-precio
 
 will write all the data (the 10 data listed above) of each book for one category, 
 
-if arg3 == yes: will store the image of the product pages visited in a folder named 'cover-images'.
+if __arg3 == 'yes'__: will store the image of the product pages visited.
 
 ### command example
 
@@ -116,16 +124,24 @@ python scrape.py category arg2 arg3
 python scrape.py category religion yes
 ```
 
+### structure of the data downloaded
+
+⬇️  data
+    ⬇️  one_category_data
+        ⬇️  [name of the chosen category]
+            ->  cover-images
+            ->  csv
+
+
 ## 5. All categories
 ### Usage cases
 - [x] scrape informations for all categories of books
 - [x] scrape book image of each product page visited
 
 will extract all the informations for each book of each categories.
-if arg3 = yes:
-    the folders for each category will contain 2 fodlers:
-    - cover-images
-    - csv
+
+if __arg3 == 'yes'__: will store the image of the product pages visited.
+
 
 __Here arg2 need to be a dot: '.', check the code below.__
 
@@ -141,3 +157,18 @@ you can still change 'yes' to 'no', to not download the images.
 ```
 python scrape.py all . allData yes
 ```
+### structure of the data downloaded 
+
+⬇️ data
+    ⬇️ all_categories_data
+        ⬇️  [name of the category]
+            -> cover-images
+            -> csv
+        ⬇️  [name of the category]
+            -> cover-images
+            -> csv
+        ⬇️  [name of the category]
+            -> cover-images
+            -> csv
+        (...etc, up to the 50 categories)
+
