@@ -27,7 +27,7 @@ def chooser(option, argument_for_option, choice_for_image):
         checkdir(path)
         onecategory(option, argument_for_option, choice_for_image, path)
     elif option == 'all':
-        path = 'data/all_categories_data'
+        path = 'data/all_categories_data/'
         allcategories(choice_for_image, path)
     else:
         print("choices available are: book, category or all")
@@ -99,7 +99,7 @@ def onebook(book_option, chosen_url, image_one_book_option, path_to_one_book_dat
             image_url = "" + soup.find("img")['src'][5:]
             if book_option == "book":
                 checkdir(path_to_one_book_data + '/csv/')
-                path_one_book_csv = path_to_one_book_data + '/csv/' + 'book_title_' + '.csv'
+                path_one_book_csv = path_to_one_book_data + '/csv/' + 'book_title_' + title + '.csv'
                 with open(path_one_book_csv, 'a', newline='') as f:
                     csv_writer = csv.writer(f)
                     csv_writer.writerow(
@@ -109,11 +109,12 @@ def onebook(book_option, chosen_url, image_one_book_option, path_to_one_book_dat
                     csv_writer.writerow(
                         [chosen_url, upc, title, price_including_tax, price_excluding_tax, number_available,
                          product_description, category, review_rating, urlbase + image_url])
+                print('csv: book_title_' + title + '.csv created.' )
             else:
-                with open(path_one_category, 'a', newline='') as f:
+                with open(path_to_one_book_data, 'a', newline='') as f:
                     csv_writer = csv.writer(f)
                     csv_writer.writerow(
-                        [fun_arg_choice, upc, title, price_including_tax, price_excluding_tax, number_available,
+                        [chosen_url, upc, title, price_including_tax, price_excluding_tax, number_available,
                          product_description, category, review_rating, urlbase + image_url])
             # creating a dict with the title of the books and their url to send to imageSaver() to save them
             if book_option == 'book' and image_one_book_option == 'yes':
@@ -123,10 +124,11 @@ def onebook(book_option, chosen_url, image_one_book_option, path_to_one_book_dat
                 imagesaver(path_to_one_book_data, image_dict)
     except requests.exceptions.MissingSchema:
         print('it is not a valid url ', chosen_url)
-
+   
 
 # to scrape the data from one category
 def onecategory(category_option, chosen_category, images_for_category_or_not, path_to_one_category_data):
+    global path
     caturl = ""
     print('----please wait----')
     if chosen_category not in categories_list:
@@ -135,23 +137,24 @@ def onecategory(category_option, chosen_category, images_for_category_or_not, pa
             "Type the exact name of the category, all characters must be lowercase. "
             "Replace spaces by dashes '-' ")
         exit()
-    else:
-        path =  path_to_one_category_data + chosen_category + '/csv/' 
-        checkdir(path)
-        with open(path + chosen_category + '.csv', 'w', newline='') as pathcsv:
-            csv_writer = csv.writer(pathcsv)
-            csv_writer.writerow(['product_page_url', 'universal_product_code(upc)', 'title', 'price_including_tax',
-                                 'price_excluding_tax', 'number_available', 'product_description', 'category',
-                                 'review_rating', 'image_url'])
-        exit()
-        for i in categories_list_full:
-            if i.split('_')[0] == chosen_category:
-                caturl = i
-                print(caturl)
-                exit()
-                break
+    if category_option == 'category' :
+        path_to_csv =  path_to_one_category_data + chosen_category + '/csv/' 
+        checkdir(path_to_csv)
+    elif category_option == 'all':
+        path_to_csv = path + chosen_category + '/csv/' 
+        checkdir(path_to_csv)
+    with open(path_to_csv + chosen_category + '.csv', 'w', newline='') as pathcsv:
+        csv_writer = csv.writer(pathcsv)
+        csv_writer.writerow(['product_page_url', 'universal_product_code(upc)', 'title', 'price_including_tax',
+                                'price_excluding_tax', 'number_available', 'product_description', 'category',
+                                'review_rating', 'image_url'])
+
 
     # creating the list of page to visit. Requesting pages to check their existence.
+    for i in categories_list_full:
+        if i.split('_')[0] == chosen_category:
+            caturl = i
+            break
     url_list = list()
     url_list.append(urlbasecat + caturl + '/index.html')
     url_cat_page_base = urlbasecat + caturl + '/page-'
@@ -161,6 +164,7 @@ def onecategory(category_option, chosen_category, images_for_category_or_not, pa
             url_list.append(url_page_to_parse)
         else:
             break
+
 
     # creating the whole list or product urls :
     # example of url: https://books.toscrape.com/catalogue/the-bhagavad-gita_60/index.html
@@ -174,21 +178,21 @@ def onecategory(category_option, chosen_category, images_for_category_or_not, pa
                 if str(j).count('../') == 3:
                     product_url = urlbase + 'catalogue/' + j['href'][9:]
                     product_url_list.append(product_url)
-    
+ 
     # calling the onebook()
     # creating an information to show to the user in the console
     current_done = 0
     for i in product_url_list:
         counter_total = len(product_url_list)
-        path = path_to_one_category_data + chosen_category + '/csv/' + chosen_category + '.csv'
-        onebook(category_option, i, image_for_category_or_not, path)
+        path_to_category_csv = path_to_one_category_data + chosen_category + '/csv/' + chosen_category + '.csv'
+        onebook(category_option, i, images_for_category_or_not, path_to_category_csv)
         current_done += 1
         print("parsing page ", current_done, "on ", counter_total)
     # creating a dict with name of the book and the url of their image.
     # will be send to function imageSaver(),
     # example of key/value pair inside the dict:
     # {'The-bhagavad-gita': 'https://books.toscrape.com//media/cache/13/27/13270087ac5cba3e999166a64991187a.jpg'}
-    if image_choice == 'yes':
+    if images_for_category_or_not == 'yes':
         image_dict = dict()
         for i in product_url_list:
             name = i.split('/')[-2].split('_')[-2].capitalize()
@@ -198,7 +202,7 @@ def onecategory(category_option, chosen_category, images_for_category_or_not, pa
                 image_url = urlbase + soup.find("img")['src'][5:]
                 image_dict[name] = image_url
         # calling imageSaver
-        imagesaver("data_one category" + '/' + chosen_category, image_dict)
+        imagesaver(path + chosen_category, image_dict)
 
 
 # to scrape the data from all categories: calling onecategory()
@@ -206,19 +210,18 @@ def allcategories(all_images_or_not, path_to_all_data):
     counter = len(categories_list)
     print("----there is ", counter, " categories to parse !----")
     for i in categories_list:
-        onecategory('category', i, all_images_or_not, path_to_all_data)
+        onecategory('all', i, all_images_or_not, path)
         counter -= 1
         print("----there is ", counter, " categories left to parse !----")
 
 
 # to save the images
-def imagesaver(path_image_folder, image_dict):
-    print('----retrieving images, please wait----')
-    checkdir(path_image_folder + "/cover-images")
-    for i, j in image_dict.items():
+def imagesaver(path_image_folder, image_dictionary):
+    checkdir(path_image_folder + "/cover-images/")
+    for i, j in image_dictionary.items():
         response_image = requests.get(j)
         if response_image.ok:
-            print('saving image cover of ', i, ' in ', path_image_folder)
+            print('saving image cover of ', i, ' in ', path)
             with open(path_image_folder + '/cover-images' + '/Cover_of_' + i + '.jpg', 'wb') as f:
                 f.write(response_image.content)
 
