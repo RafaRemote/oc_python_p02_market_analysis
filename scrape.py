@@ -206,7 +206,7 @@ def onecategory(category_option, chosen_category, images_for_category_or_not, pa
 
 
 # to scrape the data from all categories: calling onecategory()
-def allcategories(all_images_or_not):
+def allcategories(all_images_or_not, path_to_all_data):
     counter = len(categories_list)
     print("----there is ", counter, " categories to parse !----")
     for i in categories_list:
