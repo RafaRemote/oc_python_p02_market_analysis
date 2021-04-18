@@ -12,9 +12,9 @@ Menu
 The Target Website used for this script is https://books.toscrape.com/
 ## 1 - Usage cases
 
-- [x] scrape informations for __ONE BOOK__
-- [x] scrape informations for __ONE CATEGORY OF BOOK__
-- [x] scrape informations for __ALL CATEGORIES OF BOOKS__
+- [x] scrape information for __ONE BOOK__
+- [x] scrape information for __ONE CATEGORY OF BOOK__
+- [x] scrape information for __ALL CATEGORIES OF BOOKS__
 - [x] scrape __BOOK IMAGE OF EACH PRODUCT PAGE VISITED__
   
 ## 2 - Installation
@@ -56,7 +56,7 @@ arg1: choice for the functions:
 
 arg2: depends on the function you have chosen:
 - if __arg1 == 'book'__: type the __url__ of the product page of the book you want to scrape,
-- else if __arg1 == 'category'__: type the __name of the category__ you have chosen. (all characters must be lowercased, no spaces but only dashes),
+- else if __arg1 == 'category'__: type the __name of the category__ you have chosen. (all characters must be lowercase, no spaces but only dashes),
 - else if  __arg1 == 'all'__ : type '.' (one dot) 
 
 
@@ -67,10 +67,10 @@ arg3: choice for the image downloading and saving.
 
 ## 3. One book scraping
 ### Usage cases
-- [x] scrape informations for one book,
+- [x] scrape information for one book,
 - [x] scrape book image of each product page visited.
 
-will extract the following datas:
+will extract the following data:
 
 * product_page_url
 * universal_ product_code (upc)
@@ -96,7 +96,7 @@ python scrape.py book arg2 arg3
 python scrape.py book https://books.toscrape.com/catalogue/scott-pilgrims-precious-little-life-scott-pilgrim-1_987/index.html yes
 ```
 
-### struture of the data downloaded
+### structure of the data downloaded
 
 ⬇️ data  
   
@@ -110,7 +110,7 @@ python scrape.py book https://books.toscrape.com/catalogue/scott-pilgrims-precio
 
 ## 4. One category scraping
 ### Usage cases
-- [x] scrape informations for one category of book
+- [x] scrape information for one category of book
 - [x] scrape book image of each product page visited
 
 will write all the data (the 10 data listed above) of each book for one category, 
@@ -141,10 +141,10 @@ python scrape.py category religion yes
 
 ## 5. All categories
 ### Usage cases
-- [x] scrape informations for all categories of books
+- [x] scrape information for all categories of books
 - [x] scrape book image of each product page visited
 
-will extract all the informations for each book of each categories.
+will extract all the information for each book of each category.
 
 if __arg3 == 'yes'__: will store the image of the product pages visited.
 
@@ -157,7 +157,7 @@ __Here arg2 need to be a dot: '.', check the code below.__
 python scrape.py category [arg2] [arg3]
 ```
 
-:exclamation: Use this command to scrape all the datas :exclamation:  
+:exclamation: Use this command to scrape all the data :exclamation:  
 you can still change 'yes' to 'no', to not download the images.
 
 ```
