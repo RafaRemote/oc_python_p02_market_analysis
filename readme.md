@@ -100,12 +100,12 @@ python scrape.py book https://books.toscrape.com/catalogue/scott-pilgrims-precio
 
 ⬇️ data  
   
-&nbsp;⬇️ one_book_data  
+&nbsp;&nbsp;&nbsp;&nbsp;⬇️ one_book_data  
   
-&nbsp;&nbsp;⬇️ [name of the book chosen]  
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;⬇️ [name of the book chosen]  
   
-&nbsp;&nbsp;&nbsp;-> csv  
-&nbsp;&nbsp;&nbsp;-> cover-image  
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-> csv  
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-> cover-image  
 
 
 ## 4. One category scraping
@@ -131,12 +131,12 @@ python scrape.py category religion yes
 
 ⬇️  data  
   
-&nbsp;⬇️  one_category_data  
+&nbsp;&nbsp;&nbsp;&nbsp;⬇️  one_category_data  
   
-&nbsp;&nbsp;⬇️  [name of the chosen category]  
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;⬇️  [name of the chosen category]  
   
-&nbsp;&nbsp;&nbsp;->  cover-images  
-&nbsp;&nbsp;&nbsp;->  csv  
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;->  cover-images  
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;->  csv  
 
 
 ## 5. All categories
@@ -167,22 +167,22 @@ python scrape.py all . allData yes
 
 ⬇️ data  
   
-&nbsp;⬇️ all_categories_data  
+&nbsp;&nbsp;&nbsp;&nbsp;⬇️ all_categories_data  
   
-&nbsp;&nbsp;⬇️  [name of the category]  
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;⬇️  [name of the category]  
   
-&nbsp;&nbsp;&nbsp;-> cover-images  
-&nbsp;&nbsp;&nbsp;-> csv  
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-> cover-images  
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-> csv  
   
-&nbsp;&nbsp;⬇️  [name of the category]  
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;⬇️  [name of the category]  
   
-&nbsp;&nbsp;&nbsp;-> cover-images  
-&nbsp;&nbsp;&nbsp;-> csv  
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-> cover-images  
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-> csv  
   
-&nbsp;&nbsp;⬇️  [name of the category]  
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;⬇️  [name of the category]  
   
-&nbsp;&nbsp;&nbsp;-> cover-images  
-&nbsp;&nbsp;&nbsp;-> csv  
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-> cover-images  
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-> csv  
   
 (...etc, up to the 50 categories)  
 
