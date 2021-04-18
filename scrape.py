@@ -218,12 +218,17 @@ def allcategories(all_images_or_not, path_to_all_data):
 
 # to save the images
 def imagesaver(path_image_folder, image_dictionary):
-    checkdir(path_image_folder + "/cover-images/")
+    if option == 'book':
+        path_image_folder = path_image_folder + "/cover_image/"
+        checkdir(path_image_folder)
+    else :
+        path_image_folder = path_image_folder + "/cover_images/"
+        checkdir(path_image_folder)
     for i, j in image_dictionary.items():
         response_image = requests.get(j)
         if response_image.ok:
             print('saving image cover of ', i, ' in ', path)
-            with open(path_image_folder + '/cover-images' + '/Cover_of_' + i + '.jpg', 'wb') as f:
+            with open(path_image_folder + '/Cover_of_' + i + '.jpg', 'wb') as f:
                 f.write(response_image.content)
 
 
