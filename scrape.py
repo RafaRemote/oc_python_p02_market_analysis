@@ -36,11 +36,11 @@ def chooser(option, argument_for_option, choice_for_image):
 # function to check if a path exist or not
 def checkdir(path_to_check):
     while not os.path.isdir(path_to_check):
-            try:
-                os.makedirs(path_to_check)
-            except OSError:
-                # print("line 55: there was a problem with the path ", path_to_check)
-                break
+        try:
+            os.makedirs(path_to_check)
+        except OSError:
+            # print("line 55: there was a problem with the path ", path_to_check)
+            break
 
 
 # variable for the target website
@@ -110,7 +110,7 @@ def onebook(book_option, chosen_url, image_one_book_option, path_to_one_book_dat
                     csv_writer.writerow(
                         [chosen_url, upc, title, price_including_tax, price_excluding_tax, number_available,
                          product_description, category, review_rating, urlbase + image_url])
-                print('csv: book_title_' + title + '.csv created.' )
+                print('csv: book_title_' + title + '.csv created.')
             else:
                 with open(path_to_one_book_data, 'a', newline='') as f:
                     csv_writer = csv.writer(f)
@@ -138,8 +138,9 @@ def onecategory(category_option, chosen_category, images_for_category_or_not, pa
             "Type the exact name of the category, all characters must be lowercase. "
             "Replace spaces by dashes '-' ")
         exit()
-    if category_option == 'category' :
-        path_to_csv =  path_to_one_category_data + chosen_category + '/csv/' 
+    path_to_csv = ''
+    if category_option == 'category':
+        path_to_csv = path_to_one_category_data + chosen_category + '/csv/'
         checkdir(path_to_csv)
     elif category_option == 'all':
         path_to_csv = path + chosen_category + '/csv/' 
@@ -147,9 +148,8 @@ def onecategory(category_option, chosen_category, images_for_category_or_not, pa
     with open(path_to_csv + chosen_category + '.csv', 'w', newline='') as pathcsv:
         csv_writer = csv.writer(pathcsv)
         csv_writer.writerow(['product_page_url', 'universal_product_code(upc)', 'title', 'price_including_tax',
-                                'price_excluding_tax', 'number_available', 'product_description', 'category',
-                                'review_rating', 'image_url'])
-
+                             'price_excluding_tax', 'number_available', 'product_description', 'category',
+                             'review_rating', 'image_url'])
 
     # creating the list of page to visit. Requesting pages to check their existence.
     for i in categories_list_full:
@@ -165,7 +165,6 @@ def onecategory(category_option, chosen_category, images_for_category_or_not, pa
             url_list.append(url_page_to_parse)
         else:
             break
-
 
     # creating the whole list or product urls :
     # example of url: https://books.toscrape.com/catalogue/the-bhagavad-gita_60/index.html
@@ -207,7 +206,7 @@ def onecategory(category_option, chosen_category, images_for_category_or_not, pa
 
 
 # to scrape the data from all categories: calling onecategory()
-def allcategories(all_images_or_not, path_to_all_data):
+def allcategories(all_images_or_not):
     counter = len(categories_list)
     print("----there is ", counter, " categories to parse !----")
     for i in categories_list:
@@ -221,7 +220,7 @@ def imagesaver(path_image_folder, image_dictionary):
     if option == 'book':
         path_image_folder = path_image_folder + "/cover_image/"
         checkdir(path_image_folder)
-    else :
+    else:
         path_image_folder = path_image_folder + "/cover_images/"
         checkdir(path_image_folder)
     for i, j in image_dictionary.items():
@@ -230,7 +229,6 @@ def imagesaver(path_image_folder, image_dictionary):
             print('saving image cover of ', i, ' in ', path)
             with open(path_image_folder + '/Cover_of_' + i + '.jpg', 'wb') as f:
                 f.write(response_image.content)
-
 
 
 # to be able to use the functions within the command line
