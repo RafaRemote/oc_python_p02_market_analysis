@@ -161,7 +161,7 @@ python scrape.py category [arg2] [arg3]
 you can still change 'yes' to 'no', to not download the images.
 
 ```
-python scrape.py all . allData yes
+python scrape.py all . yes
 ```
 ### structure of the data downloaded 
 
