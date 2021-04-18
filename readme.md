@@ -68,7 +68,7 @@ arg5: choice for the image downloading and saving. Images will be saved in the f
 - __yes__: to download the images,
 - __no__: to not download the images.
 
-## 3. One book sraping
+## 3. One book scraping
 ### Usage cases
 - [x] scrape informations for one book,
 - [x] scrape book image of each product page visited.
