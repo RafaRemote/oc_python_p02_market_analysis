@@ -99,10 +99,13 @@ python scrape.py book https://books.toscrape.com/catalogue/scott-pilgrims-precio
 ### struture of the data downloaded
 
 ⬇️ data  
-    ⬇️ one_book_data  
-        ⬇️ [name of the book chosen]  
-            -> csv  
-            -> cover-image  
+  
+&nbsp;⬇️ one_book_data  
+  
+&nbsp;&nbsp;⬇️ [name of the book chosen]  
+  
+&nbsp;&nbsp;&nbsp;-> csv  
+&nbsp;&nbsp;&nbsp;-> cover-image  
 
 
 ## 4. One category scraping
@@ -127,10 +130,13 @@ python scrape.py category religion yes
 ### structure of the data downloaded
 
 ⬇️  data  
-    ⬇️  one_category_data  
-        ⬇️  [name of the chosen category]  
-            ->  cover-images  
-            ->  csv  
+  
+&nbsp;⬇️  one_category_data  
+  
+&nbsp;&nbsp;⬇️  [name of the chosen category]  
+  
+&nbsp;&nbsp;&nbsp;->  cover-images  
+&nbsp;&nbsp;&nbsp;->  csv  
 
 
 ## 5. All categories
@@ -160,15 +166,23 @@ python scrape.py all . allData yes
 ### structure of the data downloaded 
 
 ⬇️ data  
-    ⬇️ all_categories_data  
-        ⬇️  [name of the category]  
-            -> cover-images  
-            -> csv  
-        ⬇️  [name of the category]  
-            -> cover-images  
-            -> csv  
-        ⬇️  [name of the category]  
-            -> cover-images  
-            -> csv  
-        (...etc, up to the 50 categories)  
+  
+&nbsp;⬇️ all_categories_data  
+  
+&nbsp;&nbsp;⬇️  [name of the category]  
+  
+&nbsp;&nbsp;&nbsp;-> cover-images  
+&nbsp;&nbsp;&nbsp;-> csv  
+  
+&nbsp;&nbsp;⬇️  [name of the category]  
+  
+&nbsp;&nbsp;&nbsp;-> cover-images  
+&nbsp;&nbsp;&nbsp;-> csv  
+  
+&nbsp;&nbsp;⬇️  [name of the category]  
+  
+&nbsp;&nbsp;&nbsp;-> cover-images  
+&nbsp;&nbsp;&nbsp;-> csv  
+  
+(...etc, up to the 50 categories)  
 
