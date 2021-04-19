@@ -3,7 +3,6 @@ import requests
 import re
 import os.path
 import csv
-import sys
 import itertools
 
 print("Welcome to your scraping script!")
@@ -109,8 +108,7 @@ def onebook(book_option, chosen_url, image_one_book_option, path_to_one_book_dat
         print('Looks like ', chosen_url, ' is not a valid url.')
         print('try again')
         start()
-        
-   
+
 
 # to scrape the data from one category
 def onecategory(category_option, chosen_category, images_for_category_or_not, path_to_one_category_data):
@@ -130,7 +128,7 @@ def onecategory(category_option, chosen_category, images_for_category_or_not, pa
                              'review_rating', 'image_url'])
 
 
-    # creating the list of page to visit. Requesting pages to check their existence.
+# creating the list of page to visit. Requesting pages to check their existence.
     for i in categories_list_full:
         if i.split('_')[0] == chosen_category:
             caturl = i
@@ -145,7 +143,6 @@ def onecategory(category_option, chosen_category, images_for_category_or_not, pa
         else:
             break
 
-
     # creating the whole list or product urls :
     # example of url: https://books.toscrape.com/catalogue/the-bhagavad-gita_60/index.html
     product_url_list = list()
@@ -159,7 +156,6 @@ def onecategory(category_option, chosen_category, images_for_category_or_not, pa
                     product_url = urlbase + 'catalogue/' + j['href'][9:]
                     product_url_list.append(product_url)
  
-
     # calling the onebook()
     # creating an information to show to the user in the console
     current_done = 0
@@ -169,7 +165,6 @@ def onecategory(category_option, chosen_category, images_for_category_or_not, pa
         onebook(category_option, i, images_for_category_or_not, path_to_category_csv)
         current_done += 1
         print("parsing page ", current_done, "on ", counter_total)
-
 
     # creating a dict with name of the book and the url of their image.
     # will be send to function imageSaver(),
@@ -184,7 +179,6 @@ def onecategory(category_option, chosen_category, images_for_category_or_not, pa
                 soup = BeautifulSoup(response.text, 'lxml')
                 image_url = urlbase + soup.find("img")['src'][5:]
                 image_dict[name] = image_url
-
 
         # calling imageSaver
         imagesaver(category_option, path + chosen_category, image_dict)
@@ -236,21 +230,21 @@ def chooser(option):
             print("use only lowercase and dashes.")
             print('Example: for "Christian Fiction", type "christian-fiction"')
             chooser('category')
-        else :
+        else:
             category_images = input(question_choice_image)
 
             path_category = 'data/one_category_data/'
             checkdir(path_category)
             onecategory(option, argument_for_category, category_images, path_category)
-    else : 
+    else:
         path = 'data/all_categories_data/'
-        all_image = input (question_choice_image)
+        all_image = input(question_choice_image)
         path_all = 'data/all_categories_data/'
         allcategories(all_image, path_all)
 
 
 def start():
-    answer = input ('First, type what you want to scrape: "book", "category" or "all" : ')
+    answer = input('First, type what you want to scrape: "book", "category" or "all" : ')
     if answer not in list_of_options:
         print('answer need to be either: "book" or "category" or "all"')
         start()
