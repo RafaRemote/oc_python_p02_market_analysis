@@ -4,9 +4,10 @@ Menu
 
 1. Usage cases
 2. Installation
-3. One book scraping
-4. One category scraping
-5. All categories scraping
+3. Commands
+4. One book scraping
+5. One category scraping
+6. All categories scraping
 
 
 The Target Website used for this script is https://books.toscrape.com/
@@ -43,29 +44,15 @@ pip install -r requirements.txt
 
 Now you can use the commands below in the terminal
 
-### commands 
+## 3 - Commands
+
 ```
-python scrape.py arg1 arg2 arg3
+python scrape.py
 ```
 
-arg1: choice for the functions:
+Then simply answer the questions as specified.
 
-- __'book'__: to scrape data from one book
-- __'category'__: to scrape category from one category
-- __'all'__ : to scrape everything
-
-arg2: depends on the function you have chosen:
-- if __arg1 == 'book'__: type the __url__ of the product page of the book you want to scrape,
-- else if __arg1 == 'category'__: type the __name of the category__ you have chosen. (all characters must be lowercase, no spaces but only dashes),
-- else if  __arg1 == 'all'__ : type '.' (one dot) 
-
-
-arg3: choice for the image downloading and saving.
-
-- __'yes'__: to download the images,
-- __'no'__: to not download the images.
-
-## 3. One book scraping
+## 4 - One book scraping
 ### Usage cases
 - [x] scrape information for one book,
 - [x] scrape book image of each product page visited.
@@ -83,19 +70,6 @@ will extract the following data:
 * review_rating
 * image_url
 
-
-if __arg3 == 'yes'__: will store the image of the visited pages.
-  
-### command example
-
-```
-python scrape.py book arg2 arg3
-```
-
-```
-python scrape.py book https://books.toscrape.com/catalogue/scott-pilgrims-precious-little-life-scott-pilgrim-1_987/index.html yes
-```
-
 ### structure of the data downloaded
 
 ⬇️ data  
@@ -108,24 +82,12 @@ python scrape.py book https://books.toscrape.com/catalogue/scott-pilgrims-precio
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-> cover_image  
 
 
-## 4. One category scraping
+## 5 - One category scraping
 ### Usage cases
 - [x] scrape information for one category of book
 - [x] scrape book image of each product page visited
 
 will write all the data (the 10 data listed above) of each book for one category, 
-
-if __arg3 == 'yes'__: will store the image of the product pages visited.
-
-### command example
-
-```
-python scrape.py category arg2 arg3
-```
-
-```
-python scrape.py category religion yes
-```
 
 ### structure of the data downloaded
 
@@ -139,30 +101,13 @@ python scrape.py category religion yes
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;->  csv  
 
 
-## 5. All categories
+## 6 - All categories
 ### Usage cases
 - [x] scrape information for all categories of books
 - [x] scrape book image of each product page visited
 
 will extract all the information for each book of each category.
 
-if __arg3 == 'yes'__: will store the image of the product pages visited.
-
-
-__Here arg2 need to be a dot: '.', check the code below.__
-
-### command example
-
-```
-python scrape.py category [arg2] [arg3]
-```
-
-:exclamation: Use this command to scrape all the data :exclamation:  
-you can still change 'yes' to 'no', to not download the images.
-
-```
-python scrape.py all . yes
-```
 ### structure of the data downloaded 
 
 ⬇️ data  
