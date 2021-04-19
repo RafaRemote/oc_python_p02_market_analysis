@@ -1,5 +1,7 @@
 from bs4 import BeautifulSoup
 import requests
+import matplotlib.pyplot as plt
+import numpy as np
 import re
 import os.path
 import csv
@@ -14,6 +16,13 @@ question_choice_image = "Do you want to download the images ? ('yes' to download
 # variable for the target website
 urlbase = "https://books.toscrape.com/"
 urlbasecat = urlbase + "catalogue/category/books/"
+
+
+# will be used to draw a chart
+price_list_incltax = list()
+cheap = 0
+moderate = 0
+expensive = 0
 
 # creating the list of categories
 # category list will be a list with lists inside, example of list inside: ['Short', 'Stories'] 
@@ -68,6 +77,7 @@ def onebook(book_option, chosen_url, image_one_book_option, path_to_one_book_dat
             upc = soup.find('td').text
             title = soup.find('h1').text.replace(' ', '_').replace('/', '-')
             price_including_tax = soup.findAll('td')[3].text[1:]
+            price_list_incltax.append(price_including_tax[1:-3])
             price_excluding_tax = soup.findAll('td')[2].text[1:]
             number_available = str(re.findall('[0-9]+', soup.findAll('td')[5].text))[2:-2]
             product_description = soup.findAll('p')[3].text.replace('\n', '')
@@ -113,7 +123,7 @@ def onebook(book_option, chosen_url, image_one_book_option, path_to_one_book_dat
    
 
 # to scrape the data from one category
-def onecategory(category_option, chosen_category, images_for_category_or_not, path_to_one_category_data):
+def onecategory(category_option, chosen_category, images_for_category_or_not, path_to_one_category_data, chart):
     caturl = ""
     print('----please wait----')
     path_to_csv = ''
@@ -188,6 +198,9 @@ def onecategory(category_option, chosen_category, images_for_category_or_not, pa
 
         # calling imageSaver
         imagesaver(category_option, path + chosen_category, image_dict)
+    
+    if chart == 'yes':
+        graph(chosen_category, price_list_incltax)
 
 
 # to scrape the data from all categories: calling onecategory()
@@ -195,7 +208,7 @@ def allcategories(all_images_or_not, path_to_all_data):
     counter = len(categories_list)
     print("----there is ", counter, " categories to parse !----")
     for i in categories_list:
-        onecategory('all', i, all_images_or_not, path)
+        onecategory('all', i, all_images_or_not, path, '')
         counter -= 1
         print("----there is ", counter, " categories left to parse !----")
 
@@ -238,17 +251,45 @@ def chooser(option):
             chooser('category')
         else :
             category_images = input(question_choice_image)
-
             path_category = 'data/one_category_data/'
+            chart = input('Do you want to see a chart showing a analysis of this category ? ("yes" to see, anything else to not see) ' )
             checkdir(path_category)
-            onecategory(option, argument_for_category, category_images, path_category)
+            onecategory(option, argument_for_category, category_images, path_category, chart)
     else : 
         path = 'data/all_categories_data/'
         all_image = input (question_choice_image)
         path_all = 'data/all_categories_data/'
         allcategories(all_image, path_all)
 
+# to show the price range chart
+def graph(category, price_list):
+    global cheap
+    global moderate
+    global expensive
+    for i in price_list_incltax:
+        if int(i) < 20 :
+            cheap += 1
+        elif int(i) > 20 and int(i) < 40 :
+            moderate += 1
+        else : 
+            expensive += 1
+    height = list()
+    bars = list()
+    height = [cheap, moderate, expensive]
+    bars = ['cheap > £10','average > £20 < £40','expensive > £40']
+    x_pos = np.arange(len(bars))
+    plt.style.use('seaborn-whitegrid')
+    plt.rcParams.update({'font.size': 13})
+    plt.title('Price Range for Category: '+  category.capitalize())
+    plt.bar(x_pos, height)
+    plt.xticks(x_pos, bars)
+    plt.bar(bars, height, color=['green', 'blue', 'red'])
+    plt.ylabel('Quantity')
+    plt.xlabel('Price Range')
+    plt.show()
+    plt.close()
 
+    
 def start():
     answer = input ('First, type what you want to scrape: "book", "category" or "all" : ')
     if answer not in list_of_options:
