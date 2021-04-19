@@ -8,6 +8,7 @@ Menu
 4. One book scraping
 5. One category scraping
 6. All categories scraping
+7. Option: Bar Chart.
 
 
 The Target Website used for this script is https://books.toscrape.com/
@@ -132,4 +133,8 @@ will extract all the information for each book of each category.
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-> csv  
   
 (...etc, up to the 50 categories)  
+
+## 7 - Option: Bar Chart.
+
+When you choose 'category', you have the option to see a bar chart showing the repartition of books, accordingly to their price.
 
