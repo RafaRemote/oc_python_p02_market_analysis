@@ -46,6 +46,8 @@ Now you can use the commands below in the terminal
 
 ## 3 - Commands
 
+In the terminal, check that you are in the folder 'pythonWebScraper', and enter:
+
 ```
 python scrape.py
 ```
