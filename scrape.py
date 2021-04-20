@@ -6,46 +6,9 @@ import csv
 import itertools
 
 
-
-
-
-
 # variable for the target website
 urlbase = "https://books.toscrape.com/"
 urlbasecat = urlbase + "catalogue/category/books/"
-
-# creating the list of categories
-# category list will be a list with lists inside, example of list inside: ['Short', 'Stories'] 
-category_list = list()
-response = requests.get(urlbase)
-if response.ok:
-    soup = BeautifulSoup(response.text, 'lxml')
-    categories = soup.findAll("a")
-    for i in categories:
-        if str(i).count("books") > 0:
-            category_list.append(str(i).split()[2:-1])
-del category_list[0]
-
-
-# creating a list of all the name of the categories
-# example of one category in the list after this below code: 'short-stories' instead of  ['Short', 'Stories'] previously
-categories_list = list()
-for i in category_list:
-    if len(i) == 1:
-        categories_list.append(i[0].lower())
-    elif len(i) == 2:
-        categories_list.append((i[0] + '-' + i[1]).lower())
-    else:
-        categories_list.append((i[0] + '-' + i[1] + '-' + i[2]).lower())
-
-
-# modifying the elements of the list to get the correct syntax and to recreate the correct urls,
-# example of one category: short-stories_45
-categories_list_full = list()
-i = 2
-for j in categories_list:
-    categories_list_full.append(j + '_' + str(i))
-    i += 1
 
 
 # function to check if a path exist or not
@@ -56,6 +19,30 @@ def checkdir(path_to_check):
         except OSError:
             # print("line 55: there was a problem with the path ", path_to_check)
             break
+
+
+# creating the list of categories
+def get_categories():   
+    # category list will be a list with lists inside, example of list inside: ['Short', 'Stories'] 
+    category_list = list()
+    response = requests.get(urlbase)
+    if response.ok:
+        soup = BeautifulSoup(response.text, 'lxml')
+        categories = soup.findAll("a")
+        for i in categories:
+            if str(i).count("books") > 0:
+                category_list.append(str(i).split()[2:-1])
+    del category_list[0]
+    # example of one category in the list after this below code: 'short-stories' instead of  ['Short', 'Stories'] previously
+    categories_list = list()
+    for i in category_list:
+        if len(i) == 1:
+            categories_list.append(i[0].lower())
+        elif len(i) == 2:
+            categories_list.append((i[0] + '-' + i[1]).lower())
+        else:
+            categories_list.append((i[0] + '-' + i[1] + '-' + i[2]).lower())
+    return categories_list
 
 
 # function to scrape the data from one book.
@@ -111,7 +98,7 @@ def onebook(book_option, chosen_url, image_one_book_option, path_to_one_book_dat
 
 
 # to scrape the data from one category
-def onecategory(category_option, chosen_category, images_for_category_or_not, path_to_one_category_data):
+def onecategory(category_option, chosen_category, images_for_category_or_not, path_to_one_category_data, cat_list):
     caturl = ""
     print('----please wait----')
     path_to_csv = ''
@@ -126,9 +113,15 @@ def onecategory(category_option, chosen_category, images_for_category_or_not, pa
         csv_writer.writerow(['product_page_url', 'universal_product_code(upc)', 'title', 'price_including_tax',
                              'price_excluding_tax', 'number_available', 'product_description', 'category',
                              'review_rating', 'image_url'])
+        # modifying the elements of the list of categories to get the correct syntax and to recreate the correct urls,
+        # example of one category: short-stories_45
+        categories_list_full = list()
+        i = 2
+        for j in cat_list:
+            categories_list_full.append(j + '_' + str(i))
+            i += 1
 
-
-# creating the list of page to visit. Requesting pages to check their existence.
+    # creating the list of page to visit. Requesting pages to check their existence.
     for i in categories_list_full:
         if i.split('_')[0] == chosen_category:
             caturl = i
@@ -186,10 +179,11 @@ def onecategory(category_option, chosen_category, images_for_category_or_not, pa
 
 # to scrape the data from all categories: calling onecategory()
 def allcategories(all_images_or_not, path_to_all_data):
-    counter = len(categories_list)
+    list_of_categories = get_categories()
+    counter = len(list_of_categories)
     print("----there is ", counter, " categories to parse !----")
-    for i in categories_list:
-        onecategory('all', i, all_images_or_not, path)
+    for i in list_of_categories:
+        onecategory('all', i, all_images_or_not, path, list_of_categories)
         counter -= 1
         print("----there is ", counter, " categories left to parse !----")
 
@@ -205,7 +199,7 @@ def imagesaver(choice, path_image_folder, image_dictionary):
     for i, j in image_dictionary.items():
         response_image = requests.get(j)
         if response_image.ok:
-            print('saving image cover of ', i, ' in ', path)
+            print('saving image cover of ', i, ' in ', path_image_folder)
             with open(path_image_folder + '/Cover_of_' + i + '.jpg', 'wb') as f:
                 f.write(response_image.content)
 
@@ -227,16 +221,16 @@ def chooser(option):
     elif option == 'category':
         path = 'data/one_category_data/'
         argument_for_category = input("Which category do you want to scrape ? (use lowercase and dashes) ")
+        categories_list = get_categories()
         if argument_for_category not in categories_list:
             print("use only lowercase and dashes.")
             print('Example: for "Christian Fiction", type "christian-fiction"')
             chooser('category')
         else:
             category_images = input(question_choice_image)
-
             path_category = 'data/one_category_data/'
             checkdir(path_category)
-            onecategory(option, argument_for_category, category_images, path_category)
+            onecategory(option, argument_for_category, category_images, path_category, categories_list)
     else:
         path = 'data/all_categories_data/'
         all_image = input(question_choice_image)
