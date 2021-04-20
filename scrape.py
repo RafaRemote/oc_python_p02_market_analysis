@@ -5,9 +5,9 @@ import os.path
 import csv
 import itertools
 
-print("Welcome to your scraping script!")
-list_of_options = ['book', 'category', 'all']
-question_choice_image = "Do you want to download the images ? ('yes' to download, anything else to not download') "
+
+
+
 
 
 # variable for the target website
@@ -212,6 +212,7 @@ def imagesaver(choice, path_image_folder, image_dictionary):
 
 # to be able to choose the function we want to use within the command line.
 def chooser(option):
+    question_choice_image = "Do you want to download the images ? ('yes' to download, anything else to not download') "
     global path
     if option == 'book':
         path = 'data/one_book_data/'
@@ -244,6 +245,8 @@ def chooser(option):
 
 
 def start():
+    print("Welcome to your scraping script!")
+    list_of_options = ['book', 'category', 'all']
     answer = input('First, type what you want to scrape: "book", "category" or "all" : ')
     if answer not in list_of_options:
         print('answer need to be either: "book" or "category" or "all"')
