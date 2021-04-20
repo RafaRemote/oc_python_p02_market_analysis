@@ -5,6 +5,7 @@ import os.path
 import csv
 import itertools
 
+print("Welcome to your scraping script!")
 
 # variable for the target website
 urlbase = "https://books.toscrape.com/"
@@ -205,48 +206,42 @@ def imagesaver(choice, path_image_folder, image_dictionary):
 
 
 # to be able to choose the function we want to use within the command line.
-def chooser(option):
-    question_choice_image = "Do you want to download the images ? ('yes' to download, anything else to not download') "
+def chooser():
     global path
-    if option == 'book':
-        path = 'data/one_book_data/'
-        argument_for_book = input('Please paste the product page url of the book you want to scrape : ')
-        if urlbase not in argument_for_book:
-            print('it is not a valid url. You need to choose a book product page url from ', urlbase[:-2])
-            chooser('book')
-        book_image = input(question_choice_image)
-        path_book = 'data/one_book_data/'
-        checkdir(path_book)
-        onebook(option, argument_for_book, book_image, path_book)
-    elif option == 'category':
-        path = 'data/one_category_data/'
-        argument_for_category = input("Which category do you want to scrape ? (use lowercase and dashes) ")
-        categories_list = get_categories()
-        if argument_for_category not in categories_list:
-            print("use only lowercase and dashes.")
-            print('Example: for "Christian Fiction", type "christian-fiction"')
-            chooser('category')
-        else:
-            category_images = input(question_choice_image)
-            path_category = 'data/one_category_data/'
-            checkdir(path_category)
-            onecategory(option, argument_for_category, category_images, path_category, categories_list)
-    else:
-        path = 'data/all_categories_data/'
-        all_image = input(question_choice_image)
-        path_all = 'data/all_categories_data/'
-        allcategories(all_image, path_all)
-
-
-def start():
-    print("Welcome to your scraping script!")
     list_of_options = ['book', 'category', 'all']
     answer = input('First, type what you want to scrape: "book", "category" or "all" : ')
     if answer not in list_of_options:
         print('answer need to be either: "book" or "category" or "all"')
-        start()
+        chooser()
     else:
-        chooser(answer)
+        question_choice_image = "Do you want to download the images ? ('yes' to download, anything else to not download') "
+        if answer == 'book':
+            path = 'data/one_book_data/'
+            argument_for_book = input('Please paste the product page url of the book you want to scrape : ')
+            if urlbase not in argument_for_book:
+                print('it is not a valid url. You need to choose a book product page url from ', urlbase[:-2])
+                chooser('book')
+            book_image = input(question_choice_image)
+            path_book = 'data/one_book_data/'
+            checkdir(path_book)
+            onebook(answer, argument_for_book, book_image, path_book)
+        elif answer == 'category':
+            path = 'data/one_category_data/'
+            argument_for_category = input("Which category do you want to scrape ? (use lowercase and dashes) ")
+            categories_list = get_categories()
+            if argument_for_category not in categories_list:
+                print("use only lowercase and dashes.")
+                print('Example: for "Christian Fiction", type "christian-fiction"')
+                chooser()
+            else:
+                category_images = input(question_choice_image)
+                path_category = 'data/one_category_data/'
+                checkdir(path_category)
+                onecategory(answer, argument_for_category, category_images, path_category, categories_list)
+        else:
+            path = 'data/all_categories_data/'
+            all_image = input(question_choice_image)
+            path_all = 'data/all_categories_data/'
+            allcategories(all_image, path_all)
 
-
-start()
+chooser()
