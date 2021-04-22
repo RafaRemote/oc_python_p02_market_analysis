@@ -174,7 +174,7 @@ def onecategory(category_option, chosen_category, images_for_category_or_not, pa
                 image_dict[name] = image_url
 
         # calling imageSaver
-        imagesaver(category_option, path + chosen_category, image_dict)
+        imagesaver(category_option, PATH + chosen_category, image_dict)
 
 
 # to scrape the data from all categories: calling onecategory()
@@ -183,7 +183,7 @@ def allcategories(all_images_or_not, path_to_all_data):
     counter = len(list_of_categories)
     print("----there is ", counter, " categories to parse !----")
     for i in list_of_categories:
-        onecategory('all', i, all_images_or_not, path, list_of_categories)
+        onecategory('all', i, all_images_or_not, PATH, list_of_categories)
         counter -= 1
         print("----there is ", counter, " categories left to parse !----")
 
@@ -215,7 +215,7 @@ def chooser():
     else:
         question_choice_image = "Do you want to download the images ? ('yes' to download, anything else to not download') "
         if answer == 'book':
-            path = 'data/one_book_data/'
+            PATH = 'data/one_book_data/'
             argument_for_book = input('Please paste the product page url of the book you want to scrape : ')
             if URLBASE not in argument_for_book:
                 print('it is not a valid url. You need to choose a book product page url from ', URLBASE[:-2])
@@ -225,7 +225,7 @@ def chooser():
             checkdir(path_book)
             onebook(answer, argument_for_book, book_image, path_book)
         elif answer == 'category':
-            path = 'data/one_category_data/'
+            PATH = 'data/one_category_data/'
             argument_for_category = input("Which category do you want to scrape ? (use lowercase and dashes) ")
             categories_list = get_categories()
             if argument_for_category not in categories_list:
@@ -238,7 +238,7 @@ def chooser():
                 checkdir(path_category)
                 onecategory(answer, argument_for_category, category_images, path_category, categories_list)
         else:
-            path = 'data/all_categories_data/'
+            PATH = 'data/all_categories_data/'
             all_image = input(question_choice_image)
             path_all = 'data/all_categories_data/'
             allcategories(all_image, path_all)
