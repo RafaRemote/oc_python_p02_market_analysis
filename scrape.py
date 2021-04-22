@@ -8,8 +8,8 @@ import itertools
 print("Welcome to your scraping script!")
 
 # variable for the target website
-urlbase = "https://books.toscrape.com/"
-urlbasecat = urlbase + "catalogue/category/books/"
+URLBASE = "https://books.toscrape.com/"
+URLBASECAT = URLBASE + "catalogue/category/books/"
 
 
 # function to check if a path exist or not
@@ -26,7 +26,7 @@ def checkdir(path_to_check):
 def get_categories():   
     # category list will be a list with lists inside, example of list inside: ['Short', 'Stories'] 
     category_list = list()
-    response = requests.get(urlbase)
+    response = requests.get(URLBASE)
     if response.ok:
         soup = BeautifulSoup(response.text, 'lxml')
         categories = soup.findAll("a")
@@ -78,24 +78,23 @@ def onebook(book_option, chosen_url, image_one_book_option, path_to_one_book_dat
                          'image_url'])
                     csv_writer.writerow(
                         [chosen_url, upc, title, price_including_tax, price_excluding_tax, number_available,
-                         product_description, category, review_rating, urlbase + image_url])
+                         product_description, category, review_rating, URLBASE + image_url])
                 print('csv: book_title_' + title + '.csv created. Path is ', path_one_book_csv)
             else:
                 with open(path_to_one_book_data, 'a', newline='') as f:
                     csv_writer = csv.writer(f)
                     csv_writer.writerow(
                         [chosen_url, upc, title, price_including_tax, price_excluding_tax, number_available,
-                         product_description, category, review_rating, urlbase + image_url])
+                         product_description, category, review_rating, URLBASE + image_url])
             # creating a dict with the title of the books and their url to send to imageSaver() to save them
             if book_option == 'book' and image_one_book_option == 'yes':
                 image_dict = dict()
-                image_ref = urlbase + image_url
+                image_ref = URLBASE + image_url
                 image_dict[title] = image_ref
                 imagesaver(book_option, path_to_one_book_data, image_dict)
     except requests.exceptions.MissingSchema:
         print('Looks like ', chosen_url, ' is not a valid url.')
         print('try again')
-        start()
 
 
 # to scrape the data from one category
@@ -128,8 +127,8 @@ def onecategory(category_option, chosen_category, images_for_category_or_not, pa
             caturl = i
             break
     url_list = list()
-    url_list.append(urlbasecat + caturl + '/index.html')
-    url_cat_page_base = urlbasecat + caturl + '/page-'
+    url_list.append(URLBASECAT + caturl + '/index.html')
+    url_cat_page_base = URLBASECAT + caturl + '/page-'
     for num_page in itertools.count(start=2):
         url_page_to_parse = url_cat_page_base + str(num_page) + ".html"
         if requests.get(url_page_to_parse).ok:
@@ -147,7 +146,7 @@ def onecategory(category_option, chosen_category, images_for_category_or_not, pa
             a_tag = soup.findAll('a')
             for j in a_tag:
                 if str(j).count('../') == 3:
-                    product_url = urlbase + 'catalogue/' + j['href'][9:]
+                    product_url = URLBASE + 'catalogue/' + j['href'][9:]
                     product_url_list.append(product_url)
  
     # calling the onebook()
@@ -171,7 +170,7 @@ def onecategory(category_option, chosen_category, images_for_category_or_not, pa
             response = requests.get(i)
             if response.ok:
                 soup = BeautifulSoup(response.text, 'lxml')
-                image_url = urlbase + soup.find("img")['src'][5:]
+                image_url = URLBASE + soup.find("img")['src'][5:]
                 image_dict[name] = image_url
 
         # calling imageSaver
@@ -207,7 +206,7 @@ def imagesaver(choice, path_image_folder, image_dictionary):
 
 # to be able to choose the function we want to use within the command line.
 def chooser():
-    global path
+    global PATH
     list_of_options = ['book', 'category', 'all']
     answer = input('First, type what you want to scrape: "book", "category" or "all" : ')
     if answer not in list_of_options:
@@ -218,8 +217,8 @@ def chooser():
         if answer == 'book':
             path = 'data/one_book_data/'
             argument_for_book = input('Please paste the product page url of the book you want to scrape : ')
-            if urlbase not in argument_for_book:
-                print('it is not a valid url. You need to choose a book product page url from ', urlbase[:-2])
+            if URLBASE not in argument_for_book:
+                print('it is not a valid url. You need to choose a book product page url from ', URLBASE[:-2])
                 chooser('book')
             book_image = input(question_choice_image)
             path_book = 'data/one_book_data/'
